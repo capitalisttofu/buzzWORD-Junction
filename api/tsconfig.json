@@ -8,7 +8,7 @@
     "outDir": "build",
     "skipLibCheck": true
   },
-  "types": ["node", "multer", "multer-s3", "archiver", "mime", "nodemailer"],
+  "types": ["node", "multer", "multer-s3", "archiver", "mime"],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build", "**/__tests__/*.spec.ts"]
 }
