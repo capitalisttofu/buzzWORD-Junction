@@ -28,7 +28,11 @@ const enhance = connect<StateProps, DispatchProps, Props>(
 export const RightBar: React.ComponentClass<Props> = enhance(
   class RightBarComponent extends React.PureComponent<Type, {}> {
     render() {
-      return <div className="right-bar-component" />
+      return (
+        <div className="right-bar-component">
+          <div>Hommaa muija</div>
+        </div>
+      )
     }
   }
 )

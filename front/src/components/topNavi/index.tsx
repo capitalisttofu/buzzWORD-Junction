@@ -28,7 +28,11 @@ const enhance = connect<StateProps, DispatchProps, Props>(
 export const TopNavi: React.ComponentClass<Props> = enhance(
   class TopNaviComponent extends React.PureComponent<Type, {}> {
     render() {
-      return <div className="top-navi-component" />
+      return (
+        <div className="top-navi-component">
+          <div>Finnair is dank, good investment</div>
+        </div>
+      )
     }
   }
 )

@@ -1,5 +1,9 @@
 .top-navi-component {
     width: 100%;
     height: 3rem;
-    background: blue;
+    background: rgb(82, 82, 231);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
 }
