@@ -15,6 +15,10 @@ export const getExample = (req: ExpressRequest, res: ExpressResponse) => {
   res.status(200).send({ name: 'example name', id: 0 })
 }
 
-router.get('/', getExample)
+export const getPython = (req: ExpressRequest, res: ExpressResponse) => {
+  res.status(200).send({ name: 'example name', id: 0 })
+}
+
+router.get('/', getExample).get('/python', getPython)
 
 export default router
