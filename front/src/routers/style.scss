@@ -1,0 +1,9 @@
+.app-content {
+    display: flex;
+    height: 100%;
+
+    & div:first-child {
+        flex-grow: 1;
+        margin-left: 1rem;
+    }
+}

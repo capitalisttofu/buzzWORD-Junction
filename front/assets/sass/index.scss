@@ -22,9 +22,4 @@ html {
   #project-mount {
     height: 100%;
     width: 100%;
-  
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      display: flex;
-      flex-direction: column;
-    }
   }
