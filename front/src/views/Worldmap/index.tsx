@@ -35,8 +35,8 @@ export default class Worldmap extends React.Component<any, any> {
               ))}
           </Geographies>
           <Markers>
-            {this.state.markers.map(xy => (
-              <Marker marker={{ coordinates: xy }}>
+            {this.state.markers.map((coordinates: [number, number]) => (
+              <Marker marker={{ coordinates }} key={coordinates.toString()}>
                 <circle cx={0} cy={0} r={10} fill="#ffffff" />
               </Marker>
             ))}

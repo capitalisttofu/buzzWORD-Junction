@@ -31,8 +31,6 @@ const enhance = connect<StateProps, DispatchProps, Props>(
   mapDispatchToProps
 )
 
-const important = require('images/important.png')
-
 export const HomeView: React.ComponentClass<Props> = enhance(
   class HomeViewComponent extends React.PureComponent<Type, {}> {
     render() {
@@ -43,7 +41,6 @@ export const HomeView: React.ComponentClass<Props> = enhance(
           <div onClick={() => this.props.fetchExample('cat')}>
             Click me to fetch
           </div>
-          <img src={important} />
           <Worldmap />
         </div>
       )
