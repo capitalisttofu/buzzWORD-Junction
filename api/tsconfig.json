@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "outDir": "build",
+    "skipLibCheck": true
+  },
+  "types": ["node", "multer", "multer-s3", "archiver", "mime", "nodemailer"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "**/__tests__/*.spec.ts"]
+}

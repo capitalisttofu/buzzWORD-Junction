@@ -1,0 +1,10 @@
+*.log
+npm-debug.log*
+process.env
+node_modules/
+build/
+.vscode
+.npm
+.DS_Store
+doc/
+tmp/

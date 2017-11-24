@@ -1,0 +1,30 @@
+@import 'variables';
+
+html {
+    font-family: $font-family;
+    font-size: $font-size;
+    font-weight: $font-regular;
+  
+    &,
+    body {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+    }
+  }
+  
+  * {
+    outline: none;
+  }
+
+  #project-mount {
+    height: 100%;
+    width: 100%;
+  
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      display: flex;
+      flex-direction: column;
+    }
+  }

@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "outDir": "lib",
+    "module": "commonjs",
+    "strict": true,
+    "target": "es5",
+    "jsx": "react",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "tslint-language-service"
+      }
+    ],
+    "paths": {
+      "*": ["./src/*"]
+    },
+    "lib": ["dom", "es2017", "es6", "scripthost"]
+  },
+  "types": [
+    "enzyme",
+    "jest",
+    "ramda",
+    "react",
+    "react-dom",
+    "react-redux",
+    "react-router",
+    "recompose",
+    "react-dates"
+  ],
+  "include": ["global.d.ts", "src/**/*"],
+  "exclude": ["node_modules", "lib/**/*", "src/**/*.spec.ts*"]
+}
