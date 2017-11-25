@@ -45,7 +45,7 @@ export const filterFlights = (
   )(flights)
 }
 
-const Cell = (row: { value: number }) => (
+const RiskCell = (row: { value: number }) => (
   <div
     style={{
       width: '100%',
@@ -98,7 +98,7 @@ const columns = [
   {
     Header: 'Risk level',
     accessor: 'overall_risk',
-    Cell: Cell
+    Cell: RiskCell
   }
 ]
 
