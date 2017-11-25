@@ -31,25 +31,29 @@ export type MappedTwitterData = {
   tags: string[]
 }
 
-export type FlightIdAlias = string
+export const iFlight = t.intersection([
+  t.interface({
+    PLAN_CARRIER_CODE: t.string,
+    PLAN_FLIGHT_NUMBER: t.string,
+    PLAN_DEPARTURE_DATETIME_UTC: t.string,
+    PLAN_ARRIVAL_DATETIME_UTC: t.string,
+    PLAN_DEPARTURE_STATION: t.string,
+    PLAN_ARRIVAL_STATION: t.string,
+    _id: t.string,
+    FlightId: t.string,
+    connector_flights_1h: t.array(t.string),
+    connector_flights_2h: t.array(t.string),
+    connector_flights_5h: t.array(t.string),
+    connector_flights_10h: t.array(t.string)
+  }),
+  t.partial({
+    weather_risk: t.number,
+    twitter_risk: t.number,
+    schedule_risk: t.number,
+    overall_risk: t.number
+  })
+])
 
-export type Flight = {
-  PLAN_CARRIER_CODE: string
-  PLAN_FLIGHT_NUMBER: string
-  PLAN_DEPARTURE_DATETIME_UTC: string
-  PLAN_ARRIVAL_DATETIME_UTC: string
-  PLAN_DEPARTURE_STATION: string
-  PLAN_ARRIVAL_STATION: string
-  _id: string
-  FlightId: FlightIdAlias
-  weather_risk?: number
-  twitter_risk?: number
-  schedule_risk?: number
-  overall_risk?: number
-  connector_flights_1h: FlightIdAlias[]
-  connector_flights_2h: FlightIdAlias[]
-  connector_flights_5h: FlightIdAlias[]
-  connector_flights_10h: FlightIdAlias[]
-}
+export type Flight = t.TypeOf<typeof iFlight>
 
 export type ExpressResponse = express.Response
