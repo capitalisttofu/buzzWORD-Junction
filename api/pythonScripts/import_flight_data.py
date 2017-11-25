@@ -45,4 +45,4 @@ for flight in europe_flight_data:
     flights.append(flight)
 
 
-result = db.flightsData.insertMany(flights)
+result = db.flightsData.insert_many(flights)
