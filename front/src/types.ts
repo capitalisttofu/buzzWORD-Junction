@@ -4,11 +4,12 @@ import * as ActionTypes from 'actionTypes'
 import { Observable } from 'rxjs/Observable'
 import { ActionsObservable } from 'redux-observable'
 import * as Redux from 'redux'
-import * as exampleReducer from 'reducers/example'
+import * as flightsReducer from 'reducers/flights'
 import * as mapdataReducer from 'reducers/mapdata'
+import * as t from 'io-ts'
 
 export type AppState = {
-  example: exampleReducer.State
+  flights: flightsReducer.State
   mapdata: mapdataReducer.State
   routing: any
   router: any
@@ -90,3 +91,28 @@ export interface DataPoint {
   radius: number
   description: string
 }
+
+export const iFlight = t.intersection([
+  t.interface({
+    PLAN_CARRIER_CODE: t.string,
+    PLAN_FLIGHT_NUMBER: t.string,
+    PLAN_DEPARTURE_DATETIME_UTC: t.string,
+    PLAN_ARRIVAL_DATETIME_UTC: t.string,
+    PLAN_DEPARTURE_STATION: t.string,
+    PLAN_ARRIVAL_STATION: t.string,
+    _id: t.string,
+    FlightId: t.string,
+    connector_flights_1h: t.array(t.string),
+    connector_flights_2h: t.array(t.string),
+    connector_flights_5h: t.array(t.string),
+    connector_flights_10h: t.array(t.string)
+  }),
+  t.partial({
+    weather_risk: t.number,
+    twitter_risk: t.number,
+    schedule_risk: t.number,
+    overall_risk: t.number
+  })
+])
+
+export type Flight = t.TypeOf<typeof iFlight>

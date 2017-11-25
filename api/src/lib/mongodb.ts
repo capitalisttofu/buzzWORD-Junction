@@ -14,4 +14,4 @@ if (url) {
   })
 }
 
-export default () => db
+export default (): Db => db

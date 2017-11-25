@@ -1,5 +1,5 @@
-import * as example from './example'
+import * as flights from './flights'
 
-export type Actions = example.Action
+export type Actions = flights.Action
 
-export { example }
+export { flights }

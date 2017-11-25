@@ -6,6 +6,7 @@ import * as Types from 'types'
 import * as ExampleActions from 'actions/example'
 import { Worldmap } from '../../components/Worldmap'
 import data from '../../mockData'
+import { NotificationList } from '../../components/NotificationList'
 import './style.scss'
 
 export const mapStateToProps = ({ example }: Types.AppState) => ({
@@ -42,7 +43,8 @@ export const HomeView: React.ComponentClass<Props> = enhance(
           <div onClick={() => this.props.fetchExample('cat')}>
             Click me to fetch
           </div>
-          <Worldmap />
+          <NotificationList />
+          {/*<Worldmap />*/}
         </div>
       )
     }

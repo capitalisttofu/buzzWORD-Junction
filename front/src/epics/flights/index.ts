@@ -9,38 +9,38 @@ import { PartialObserver } from 'rxjs/Observer'
 import 'rxjs'
 import * as Types from 'types'
 import { ActionsObservable } from 'redux-observable'
-import * as ActionTypes from 'actionTypes/example'
-import * as Actions from 'actions/example'
-import * as Reducer from 'reducers/example'
+import * as ActionTypes from 'actionTypes/flights'
+import * as Actions from 'actions/flights'
+import * as Reducer from 'reducers/flights'
 import * as Option from 'fp-ts/lib/Option'
 
 type AjaxResult = {
   response: { [key: string]: any }
 }
 
-export function exampleGet(
+export function getAllFlights(
   action$: ActionsObservable<ActionTypes.Action>,
   store: Types.Store,
   { ajax, baseUrl }: Types.FetchOptions
 ): Observable<ActionTypes.Action> {
-  return (action$.ofType(ActionTypes.FETCH_EXAMPLE_REQUEST) as Observable<
-    ActionTypes.FetchExampleRequest
+  return (action$.ofType(ActionTypes.FETCH_FLIGHTS_REQUEST) as Observable<
+    ActionTypes.FetchFlightsRequest
   >)
     .debounceTime(500)
-    .mergeMap(({ payload }) =>
+    .mergeMap(() =>
       ajax({
         headers: {
           'Content-Type': 'application/json'
         },
         method: 'GET',
-        url: `${baseUrl}api/example/`
+        url: `${baseUrl}api/flights/`
       }).flatMap(({ response }: AjaxResult) => {
         return Either.fold(
-          err => Observable.of(Actions.fetchExampleFailure('Validation error')),
-          R.compose(Observable.of, Actions.fetchExampleSuccess),
-          t.validate(response, ActionTypes.iFetchExampleSuccessData)
+          err => Observable.of(Actions.fetchFlightsFailure('Validation error')),
+          R.compose(Observable.of, Actions.fetchFlightsSuccess),
+          t.validate(response, t.array(Types.iFlight))
         )
       })
     )
-    .catch(error => Observable.of(Actions.fetchExampleFailure(error)))
+    .catch(error => Observable.of(Actions.fetchFlightsFailure(error)))
 }

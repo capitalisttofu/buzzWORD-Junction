@@ -20,6 +20,7 @@
     "express": "4.15.3",
     "fp-ts": "0.4.6",
     "fstream": "1.0.11",
+    "gaussian": "^1.1.0",
     "http": "0.0.0",
     "io-ts": "0.6.1",
     "io-ts-reporters": "0.0.15",
@@ -32,6 +33,7 @@
     "ramda": "0.23.0",
     "request": "2.81.0",
     "tslib": "1.7.1",
+    "twit": "^2.2.9",
     "worker-nodes": "1.5.0",
     "zlib": "1.0.5"
   },

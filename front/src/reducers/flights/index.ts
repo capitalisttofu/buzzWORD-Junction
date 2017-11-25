@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 import { Lens } from 'monocle-ts'
-import * as ActionTypes from 'actionTypes/example'
+import * as ActionTypes from 'actionTypes/flights'
 import * as Types from 'types'
 
 export const STANDBY = 'STANDBY'
@@ -17,7 +17,7 @@ export type ExampleData =
     }
   | {
       status: typeof FETCHED
-      data: ActionTypes.FetchExampleSuccessData
+      data: Types.Flight[]
     }
   | {
       status: typeof ERROR
@@ -41,16 +41,16 @@ export const example = (
   action: ActionTypes.Action
 ) => {
   switch (action.type) {
-    case ActionTypes.FETCH_EXAMPLE_REQUEST:
+    case ActionTypes.FETCH_FLIGHTS_REQUEST:
       return exampleData.set({
         status: FETCHING
       })(state)
-    case ActionTypes.FETCH_EXAMPLE_FAILURE:
+    case ActionTypes.FETCH_FLIGHTS_FAILURE:
       return exampleData.set({
         status: ERROR,
         error: action.error
       })(state)
-    case ActionTypes.FETCH_EXAMPLE_SUCCESS:
+    case ActionTypes.FETCH_FLIGHTS_SUCCESS:
       return exampleData.set({
         status: FETCHED,
         data: action.payload
