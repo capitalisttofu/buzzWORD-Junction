@@ -31,6 +31,25 @@ export type MappedTwitterData = {
   tags: string[]
 }
 
-export type Flight = {}
+export type FlightIdAlias = string
+
+export type Flight = {
+  PLAN_CARRIER_CODE: string
+  PLAN_FLIGHT_NUMBER: string
+  PLAN_DEPARTURE_DATETIME_UTC: string
+  PLAN_ARRIVAL_DATETIME_UTC: string
+  PLAN_DEPARTURE_STATION: string
+  PLAN_ARRIVAL_STATION: string
+  _id: string
+  FlightId: FlightIdAlias
+  weather_risk?: number
+  twitter_risk?: number
+  schedule_risk?: number
+  overall_risk?: number
+  connector_flights_1h: FlightIdAlias[]
+  connector_flights_2h: FlightIdAlias[]
+  connector_flights_5h: FlightIdAlias[]
+  connector_flights_10h: FlightIdAlias[]
+}
 
 export type ExpressResponse = express.Response
