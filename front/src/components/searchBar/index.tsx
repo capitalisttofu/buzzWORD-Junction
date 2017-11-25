@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as R from 'ramda'
 import * as RR from 'react-router'
 import * as Types from 'types'
+import * as FlightsReducer from 'reducers/flights'
 import './style.scss'
 
 export const mapStateToProps = ({  }: Types.AppState) => ({})
@@ -24,16 +25,19 @@ const enhance = connect<StateProps, DispatchProps, Props>(
   mapDispatchToProps
 )
 
-export const RightBar: React.ComponentClass<Props> = enhance(
-  class RightBarComponent extends React.PureComponent<Type, {}> {
+export const SearchBar: React.ComponentClass<Props> = enhance(
+  class SearchBarComponent extends React.PureComponent<Type, {}> {
     render() {
       return (
-        <div className="right-bar-component">
-          <div>Hommaa muija</div>
+        <div className="search-bar-component">
+          <div className="search-bar-box">
+            <i className="fa fa-plane" aria-hidden="true" />
+            <input placeholder="Search for airport by code" />
+          </div>
         </div>
       )
     }
   }
 )
 
-export default RightBar
+export default SearchBar

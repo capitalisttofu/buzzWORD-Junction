@@ -4,9 +4,10 @@ import * as R from 'ramda'
 import * as RR from 'react-router'
 import * as Types from 'types'
 import * as FlightActions from 'actions/flights'
-import { Worldmap } from '../../components/Worldmap'
+import { Worldmap } from 'components/Worldmap'
 import data from '../../mockData'
-import { FlightTable } from '../../components/FlightTable'
+import { FlightTable } from 'components/FlightTable'
+import { SearchBar } from 'components/searchBar'
 import './style.scss'
 
 export const mapStateToProps = ({ flights }: Types.AppState) => ({
@@ -35,6 +36,7 @@ export const HomeView: React.ComponentClass<Props> = enhance(
     render() {
       return (
         <div className="home-view-component">
+          <SearchBar />
           <FlightTable />
           {/*<Worldmap />*/}
         </div>
