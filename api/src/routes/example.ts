@@ -3,6 +3,7 @@ import * as t from 'io-ts'
 import * as fp from 'fp-ts'
 import * as PythonShell from 'python-shell'
 import * as path from 'path'
+import * as R from 'ramda'
 
 import {
   ExpressRequest,
@@ -39,22 +40,30 @@ const airportToWOEID = {
   MAD: 766273
 }
 
+export type TwitterType = {
+  tweet_volume: number | null
+  name: string
+}
+
 export const getTwitter = (req: ExpressRequest, res: ExpressResponse) =>
   twit.get(
     'trends/place',
     { id: airportToWOEID[req.query.id] },
     (err, data) => {
-      const sum = data[0].trends
-        .filter(obj => obj.tweet_volume)
-        .slice(0, 5)
-        .reduce(
-          (acc, obj) => ({
-            sum: acc + obj.tweet_volume,
-            tags: acc.tags.append(obj.asd)
+      const stuff = R.compose(
+        R.reduce(
+          (acc, obj: TwitterType) => ({
+            sum: acc.sum + obj.tweet_volume,
+            tags: acc.tags.concat(obj.name)
           }),
           { sum: 0, tags: [] }
-        )
-      res.status(200).send({ sum: sum })
+        ),
+        R.take(5),
+        R.sortBy((obj: TwitterType) => obj.tweet_volume),
+        R.filter((obj: TwitterType) => !!obj.tweet_volume)
+      )(data[0].trends)
+
+      res.status(200).send({ data: stuff })
     }
   )
 
