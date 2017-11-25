@@ -78,3 +78,13 @@ export type CombineEpicsType<Epic> = (...epics: Epic[]) => Epic
 export type CombineEpics = CombineEpicsType<Epic>
 
 export type onChangeEvent<value = string> = { target: { value: value } }
+
+export type Coordinate = [number, number]
+
+export interface DataPoint {
+  id: number
+  coordinates: Coordinate
+  severity: number
+  radius: number
+  description: string
+}

@@ -5,6 +5,7 @@ import * as RR from 'react-router'
 import * as Types from 'types'
 import * as ExampleActions from 'actions/example'
 import Worldmap from '../Worldmap'
+import data from '../../mockData'
 import './style.scss'
 
 export const mapStateToProps = ({ example }: Types.AppState) => ({
@@ -41,7 +42,7 @@ export const HomeView: React.ComponentClass<Props> = enhance(
           <div onClick={() => this.props.fetchExample('cat')}>
             Click me to fetch
           </div>
-          <Worldmap />
+          <Worldmap dataPoints={data} />
         </div>
       )
     }

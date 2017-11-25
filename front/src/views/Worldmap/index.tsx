@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import {
   ComposableMap,
   ZoomableGroup,
@@ -8,8 +7,8 @@ import {
   Markers,
   Marker
 } from 'react-simple-maps'
-
 import { Motion, spring } from 'react-motion'
+import { DataPoint, Coordinate } from '../../types'
 
 const motionDefaults = {
   zoom: 1,
@@ -20,18 +19,26 @@ const motionDefaults = {
 const mapUrl =
   'https://d3-geomap.github.io/d3-geomap/topojson/world/countries.json'
 
-export default class Worldmap extends React.Component<any, any> {
-  constructor(props: null) {
+type Props = {
+  dataPoints: DataPoint[]
+}
+
+type State = {
+  center: Coordinate
+  zoom: number
+}
+
+export default class Worldmap extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {
-      markers: [[10, 10], [100, 31]],
       center: [0, 20],
       zoom: 1
     }
     this.toggleZoomToDataPoint = this.toggleZoomToDataPoint.bind(this)
   }
 
-  toggleZoomToDataPoint({ coordinates }: any) {
+  toggleZoomToDataPoint({ coordinates }: DataPoint) {
     this.setState(state => ({
       ...state,
       center:
@@ -43,6 +50,7 @@ export default class Worldmap extends React.Component<any, any> {
   }
 
   render() {
+    const { dataPoints } = this.props
     return (
       <Motion
         defaultStyle={motionDefaults}
@@ -52,7 +60,7 @@ export default class Worldmap extends React.Component<any, any> {
           y: spring(this.state.center[1], { stiffness: 210, damping: 20 })
         }}
       >
-        {({ zoom, x, y }: any) => (
+        {({ zoom, x, y }: { zoom: number; x: number; y: number }) => (
           <ComposableMap
             style={{
               width: '100%',
@@ -91,7 +99,7 @@ export default class Worldmap extends React.Component<any, any> {
                   ))}
               </Geographies>
               <Markers>
-                {this.state.markers.map((coordinates: [number, number]) => (
+                {dataPoints.map(({ coordinates, ...rest }: DataPoint) => (
                   <Marker
                     marker={{ coordinates }}
                     key={coordinates.toString()}
