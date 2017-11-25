@@ -21,14 +21,16 @@ export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({
 const DispatchPropsWitness = (false as true) && mapDispatchToProps({} as any)
 type DispatchProps = typeof DispatchPropsWitness
 
-type Type = StateProps & DispatchProps
+type Props = {}
+
+type Type = Props & StateProps & DispatchProps
 
 const enhance = connect<StateProps, DispatchProps, Props>(
   mapStateToProps,
   mapDispatchToProps
 )
 
-const Cell = row => (
+const Cell = (row: { value: number }) => (
   <div
     style={{
       width: '100%',
@@ -50,9 +52,10 @@ const Cell = row => (
   </div>
 )
 
-const timeFormat = 'MM-DD HH:mm'
+const timeFormat = 'DD.MM.YY HH:mm'
 
-const formatTime = (field: string) => obj => format(obj[field], timeFormat)
+const formatTime = (field: string) => (obj: any) =>
+  format(obj[field], timeFormat)
 
 const columns = [
   {
