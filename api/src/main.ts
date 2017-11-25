@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser'
 
 import exampleRouter from './routes/example'
 import flightsRouter from './routes/flights'
+import weatherRouter from './routes/weather'
 
 import { ExpressRequest, ExpressResponse } from './types'
 
