@@ -13,7 +13,7 @@ const port = 8000
 
 const apiRouter = express.Router()
 apiRouter
-  .use('/example', exampleRouter)
+  .use('/twitter', exampleRouter)
   .use('/flights', flightsRouter)
   .use('/status', (req, res) => res.status(200).send(true))
 
