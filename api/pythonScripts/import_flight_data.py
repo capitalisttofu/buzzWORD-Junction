@@ -19,14 +19,30 @@ asia_flight_data = json.loads(open(asian_flights_file, "r").read())
 flights = []
 
 for x in range(0, 39):
+    one = []
+    two = []
+    five = []
+    ten = []
     flight = asia_flight_data[x]
     flight['flightID'] = 'A' + str(x+1)
-    flight['connector_flights'] = connection_data[x]
+    for member in connection_data[x]:
+        if (member['_row'][:2] == 'on'):
+            one.append(member[str(x+1)])
+        elif (member['_row'][:2] == 'tw'):
+            two.append(member[str(x+1)])
+        elif (member['_row'][:2] == 'fi'):
+            five.append(member[str(x+1)])
+        elif (member['_row'][:2] == 'te'):
+            ten.append(member[str(x+1)])
+    flight['connector_flights_1h'] = one
+    flight['connector_flights_2h'] = two
+    flight['connector_flights_5h'] = five
+    flight['connector_flights_10h'] = ten
+
     flights.append(flight)
 
 for flight in europe_flight_data:
     flights.append(flight)
 
-#print(len(flights))
 
 result = db.flightsData.insertMany(flights)
