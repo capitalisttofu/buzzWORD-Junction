@@ -4,7 +4,7 @@ import * as R from 'ramda'
 import * as RR from 'react-router'
 import * as Types from 'types'
 import * as ExampleActions from 'actions/example'
-import Worldmap from '../Worldmap'
+import Worldmap from '../../components/Worldmap'
 import data from '../../mockData'
 import './style.scss'
 
