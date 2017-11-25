@@ -41,7 +41,7 @@ export const SearchBar: React.ComponentClass<Props> = enhance(
             <input
               value={this.props.searchString}
               onChange={e => this.props.onSearchStringChange(e.target.value)}
-              placeholder="Search for airport by code"
+              placeholder="Search by airport or flight code"
             />
           </div>
         </div>

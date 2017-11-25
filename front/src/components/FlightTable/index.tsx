@@ -37,10 +37,11 @@ export const filterFlights = (
   searchString: string
 ) => {
   const search = searchString.toUpperCase()
-  R.filter(
+  return R.filter(
     (flight: Types.Flight) =>
       flight.PLAN_ARRIVAL_STATION.toUpperCase().indexOf(search) > -1 ||
-      flight.PLAN_DEPARTURE_STATION.toUpperCase().indexOf(search) > -1
+      flight.PLAN_DEPARTURE_STATION.toUpperCase().indexOf(search) > -1 ||
+      flight.PLAN_FLIGHT_NUMBER.toUpperCase().indexOf(search) > -1
   )(flights)
 }
 
