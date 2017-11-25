@@ -82,7 +82,7 @@ const columns = [
   },
   {
     Header: 'Risk level',
-    accessor: 'weather_risk',
+    accessor: 'overall_risk',
     Cell: Cell
   }
 ]
