@@ -13,6 +13,29 @@ import {
   Flight
 } from '../types'
 
+export const flightMockData: Flight[] = [
+  {
+    PLAN_CARRIER_CODE: 'AY',
+    PLAN_FLIGHT_NUMBER: 'AY 123',
+    PLAN_DEPARTURE_DATETIME_UTC: '',
+    PLAN_ARRIVAL_DATETIME_UTC: '',
+    PLAN_DEPARTURE_STATION: 'HEL',
+    PLAN_ARRIVAL_STATION: 'OSL',
+    _id: '123123123213',
+    FlightId: '000000000',
+    weather_risk_arrival: 5,
+    weather_risk_departure: 0,
+    twitter_risk_arrival: 2,
+    twitter_risk_departure: 1,
+    schedule_risk: 3,
+    overall_risk: 4,
+    connector_flights_1h: ['11111111', '2222222'],
+    connector_flights_2h: [],
+    connector_flights_5h: [],
+    connector_flights_10h: []
+  }
+]
+
 const router = express.Router()
 
 export const postFlights = async (
@@ -32,8 +55,7 @@ export const getAllFlights = async (
   res: ExpressResponse
 ) => {
   try {
-    const result = await flightsDB.fetchAllFlightData()
-    res.status(200).send({ message: result })
+    res.status(200).send(flightMockData)
   } catch (e) {
     res.status(500).send({ message: e })
   }
