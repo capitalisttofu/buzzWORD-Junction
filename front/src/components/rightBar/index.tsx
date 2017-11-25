@@ -32,7 +32,6 @@ export const RightBar: React.ComponentClass<Props> = enhance(
       return (
         <div className="right-bar-component">
           <div>Hommaa muija</div>
-          <NotificationList />
         </div>
       )
     }
