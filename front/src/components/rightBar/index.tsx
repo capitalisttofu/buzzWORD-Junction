@@ -3,15 +3,9 @@ import { connect } from 'react-redux'
 import * as R from 'ramda'
 import * as RR from 'react-router'
 import * as Types from 'types'
-import * as FlightActions from 'actions/flights'
-import { Worldmap } from '../../components/Worldmap'
-import data from '../../mockData'
-import { FlightTable } from '../../components/FlightTable'
 import './style.scss'
 
-export const mapStateToProps = ({ flights }: Types.AppState) => ({
-  flightData: flights.flightData
-})
+export const mapStateToProps = ({  }: Types.AppState) => ({})
 
 export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({})
 
@@ -30,17 +24,16 @@ const enhance = connect<StateProps, DispatchProps, Props>(
   mapDispatchToProps
 )
 
-export const HomeView: React.ComponentClass<Props> = enhance(
-  class HomeViewComponent extends React.PureComponent<Type, {}> {
+export const RightBar: React.ComponentClass<Props> = enhance(
+  class RightBarComponent extends React.PureComponent<Type, {}> {
     render() {
       return (
-        <div className="home-view-component">
-          <FlightTable />
-          {/*<Worldmap />*/}
+        <div className="right-bar-component">
+          <div>Hommaa muija</div>
         </div>
       )
     }
   }
 )
 
-export default HomeView
+export default RightBar
