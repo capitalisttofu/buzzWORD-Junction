@@ -4,11 +4,13 @@ import ReactTable from 'react-table'
 import { format } from 'date-fns'
 import * as FlightActions from 'actions/flights'
 import * as Types from '../../types'
+import * as R from 'ramda'
 import './style.scss'
 import 'react-table/react-table.css'
 
 export const mapStateToProps = ({ flights }: Types.AppState) => ({
-  flights: flights.flightData
+  flights: flights.flightData,
+  searchString: flights.searchString
 })
 
 const StatePropsWitness = (false as true) && mapStateToProps({} as any)
@@ -29,6 +31,18 @@ const enhance = connect<StateProps, DispatchProps, Props>(
   mapStateToProps,
   mapDispatchToProps
 )
+
+export const filterFlights = (
+  flights: Types.Flight[],
+  searchString: string
+) => {
+  const search = searchString.toUpperCase()
+  R.filter(
+    (flight: Types.Flight) =>
+      flight.PLAN_ARRIVAL_STATION.toUpperCase().indexOf(search) > -1 ||
+      flight.PLAN_DEPARTURE_STATION.toUpperCase().indexOf(search) > -1
+  )(flights)
+}
 
 const Cell = (row: { value: number }) => (
   <div
@@ -103,11 +117,15 @@ export const FlightTable: React.ComponentClass<{}> = enhance(
       this.props.fetchFlights()
     }
     render() {
-      const { flights } = this.props
+      const { flights, searchString } = this.props
       return (
         <div className="notification-list">
           {flights.status === 'FETCHED' && (
-            <ReactTable data={flights.data} columns={columns} {...tableProps} />
+            <ReactTable
+              data={filterFlights(flights.data, searchString)}
+              columns={columns}
+              {...tableProps}
+            />
           )}
         </div>
       )
