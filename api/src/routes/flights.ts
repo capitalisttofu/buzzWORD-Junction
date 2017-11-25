@@ -22,7 +22,7 @@ export const flightMockData: Flight[] = [
     PLAN_DEPARTURE_STATION: 'HEL',
     PLAN_ARRIVAL_STATION: 'OSL',
     _id: '123123123213',
-    FlightId: '000000000',
+    flightID: '000000000',
     weather_risk_arrival: 5,
     weather_risk_departure: 0,
     twitter_risk_arrival: 2,
