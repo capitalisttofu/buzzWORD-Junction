@@ -4,6 +4,7 @@ import * as fp from 'fp-ts'
 import * as PythonShell from 'python-shell'
 import * as path from 'path'
 import * as exampleDb from '../db/example'
+import * as R from 'ramda'
 
 import {
   ExpressRequest,
@@ -13,6 +14,59 @@ import {
 } from '../types'
 
 const router = express.Router()
+
+import twitterconf from '../config'
+import * as Twit from 'twit'
+const twit = new Twit(twitterconf)
+
+const airportToWOEID = {
+  ARN: 906057,
+  BRU: 968019,
+  CDG: 615702,
+  DUS: 646099,
+  EDI: 19344,
+  FRA: 650272,
+  GOT: 890869,
+  LHR: 44418,
+  MAN: 28218,
+  MUC: 676757,
+  MXP: 718345,
+  OSL: 862592,
+  VIE: 551801,
+  ZRH: 784794,
+  BCN: 753692,
+  BKK: 1208341,
+  FCO: 721943,
+  KIX: 15015370,
+  MAD: 766273
+}
+
+export type TwitterType = {
+  tweet_volume: number | null
+  name: string
+}
+
+export const getTwitter = (req: ExpressRequest, res: ExpressResponse) =>
+  twit.get(
+    'trends/place',
+    { id: airportToWOEID[req.query.id] },
+    (err, data) => {
+      const stuff = R.compose(
+        R.reduce(
+          (acc, obj: TwitterType) => ({
+            sum: acc.sum + obj.tweet_volume,
+            tags: acc.tags.concat(obj.name)
+          }),
+          { sum: 0, tags: [] }
+        ),
+        R.take(5),
+        R.sortBy((obj: TwitterType) => obj.tweet_volume),
+        R.filter((obj: TwitterType) => !!obj.tweet_volume)
+      )(data[0].trends)
+
+      res.status(200).send({ data: stuff })
+    }
+  )
 
 export const getExample = (req: ExpressRequest, res: ExpressResponse) => {
   res.status(200).send({ name: 'example name', id: 0 })
@@ -56,5 +110,6 @@ router
   .get('/python/:name', getPython)
   .post('/mongo', postMongo)
   .get('/mongo', getMongo)
+  .get('/twitter', getTwitter)
 
 export default router
