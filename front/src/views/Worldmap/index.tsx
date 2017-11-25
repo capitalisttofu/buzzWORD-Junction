@@ -11,6 +11,12 @@ import {
 
 import { Motion, spring } from 'react-motion'
 
+const motionDefaults = {
+  zoom: 1,
+  x: 0,
+  y: 20
+}
+
 const mapUrl =
   'https://d3-geomap.github.io/d3-geomap/topojson/world/countries.json'
 
@@ -22,28 +28,31 @@ export default class Worldmap extends React.Component<any, any> {
       center: [0, 20],
       zoom: 1
     }
-    this.zoomToDataPoint = this.zoomToDataPoint.bind(this)
+    this.toggleZoomToDataPoint = this.toggleZoomToDataPoint.bind(this)
   }
 
-  zoomToDataPoint({ coordinates }: any) {
-    this.setState(state => ({ ...state, center: coordinates, zoom: 2 }))
+  toggleZoomToDataPoint({ coordinates }: any) {
+    this.setState(state => ({
+      ...state,
+      center:
+        state.zoom === motionDefaults.zoom
+          ? coordinates
+          : [motionDefaults.x, motionDefaults.y],
+      zoom: state.zoom === motionDefaults.zoom ? 2 : motionDefaults.zoom
+    }))
   }
 
   render() {
     return (
       <Motion
-        defaultStyle={{
-          zoom: 1,
-          x: 0,
-          y: 20
-        }}
+        defaultStyle={motionDefaults}
         style={{
           zoom: spring(this.state.zoom, { stiffness: 210, damping: 20 }),
           x: spring(this.state.center[0], { stiffness: 210, damping: 20 }),
           y: spring(this.state.center[1], { stiffness: 210, damping: 20 })
         }}
       >
-        {({ zoom, x, y }) => (
+        {({ zoom, x, y }: any) => (
           <ComposableMap
             style={{
               width: '100%',
@@ -86,7 +95,7 @@ export default class Worldmap extends React.Component<any, any> {
                   <Marker
                     marker={{ coordinates }}
                     key={coordinates.toString()}
-                    onClick={this.zoomToDataPoint}
+                    onClick={this.toggleZoomToDataPoint}
                   >
                     <circle cx={0} cy={0} r={10} fill="rgba(100,50,0,0.5)" />
                   </Marker>
