@@ -40,7 +40,7 @@ export const iFlight = t.intersection([
     PLAN_DEPARTURE_STATION: t.string,
     PLAN_ARRIVAL_STATION: t.string,
     _id: t.string,
-    FlightId: t.string,
+    flightID: t.string,
     connector_flights_1h: t.array(t.string),
     connector_flights_2h: t.array(t.string),
     connector_flights_5h: t.array(t.string),
