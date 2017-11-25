@@ -15,7 +15,13 @@ import {
 
 const router = express.Router()
 
-import twitterconf from '../config'
+const twitterconf = {
+  consumer_key: process.env.consumer_key,
+  consumer_secret: process.env.consumer_secret,
+  access_token: process.env.access_token,
+  access_token_secret: process.env.access_token_secret
+}
+
 import * as Twit from 'twit'
 const twit = new Twit(twitterconf)
 
