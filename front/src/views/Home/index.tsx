@@ -3,20 +3,18 @@ import { connect } from 'react-redux'
 import * as R from 'ramda'
 import * as RR from 'react-router'
 import * as Types from 'types'
-import * as ExampleActions from 'actions/example'
-import { Worldmap } from '../../components/Worldmap'
+import * as FlightActions from 'actions/flights'
+import { Worldmap } from 'components/Worldmap'
 import data from '../../mockData'
-import { NotificationList } from '../../components/NotificationList'
+import { FlightTable } from 'components/FlightTable'
+import { SearchBar } from 'components/searchBar'
 import './style.scss'
 
-export const mapStateToProps = ({ example }: Types.AppState) => ({
-  exampleData: example.exampleData
+export const mapStateToProps = ({ flights }: Types.AppState) => ({
+  flightData: flights.flightData
 })
 
-export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({
-  fetchExample: (payload: string) =>
-    dispatch(ExampleActions.fetchExampleRequest(payload))
-})
+export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({})
 
 const StatePropsWitness = (false as true) && mapStateToProps({} as any)
 type StateProps = typeof StatePropsWitness
@@ -38,12 +36,8 @@ export const HomeView: React.ComponentClass<Props> = enhance(
     render() {
       return (
         <div className="home-view-component">
-          <div>Hello World</div>
-          <div>Current status of fetch is {this.props.exampleData.status}</div>
-          <div onClick={() => this.props.fetchExample('cat')}>
-            Click me to fetch
-          </div>
-          <NotificationList />
+          <SearchBar />
+          <FlightTable />
           {/*<Worldmap />*/}
         </div>
       )

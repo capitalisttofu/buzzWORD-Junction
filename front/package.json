@@ -17,6 +17,7 @@
     "bootstrap": "^3.3.7",
     "classnames": "2.2.5",
     "d3-geo": "^1.9.0",
+    "date-fns": "^1.29.0",
     "fp-ts": "0.5.2",
     "io-ts-reporters": "0.0.16",
     "js-cookie": "2.1.4",

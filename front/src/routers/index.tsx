@@ -9,9 +9,6 @@ import { history } from '../store'
 import TopNavi from '../components/topNavi'
 
 import HomeView from '../views/Home'
-import RightBar from '../components/rightBar'
-
-import './style.scss'
 
 export const RootApp = () => {
   return (

@@ -8,7 +8,7 @@ export const FETCHING = 'FETCHING'
 export const FETCHED = 'FETCHED'
 export const ERROR = 'ERROR'
 
-export type ExampleData =
+export type FlightData =
   | {
       status: typeof STANDBY
     }
@@ -25,16 +25,19 @@ export type ExampleData =
     }
 
 export type State = {
-  exampleData: ExampleData
+  flightData: FlightData
+  searchString: string
 }
 
 export const initialState: State = {
-  exampleData: {
+  flightData: {
     status: STANDBY
-  }
+  },
+  searchString: ''
 }
 
-const exampleData = Lens.fromProp<State, 'exampleData'>('exampleData')
+const flightData = Lens.fromProp<State, 'flightData'>('flightData')
+const searchString = Lens.fromProp<State, 'searchString'>('searchString')
 
 export const example = (
   state: State = initialState,
@@ -42,19 +45,21 @@ export const example = (
 ) => {
   switch (action.type) {
     case ActionTypes.FETCH_FLIGHTS_REQUEST:
-      return exampleData.set({
+      return flightData.set({
         status: FETCHING
       })(state)
     case ActionTypes.FETCH_FLIGHTS_FAILURE:
-      return exampleData.set({
+      return flightData.set({
         status: ERROR,
         error: action.error
       })(state)
     case ActionTypes.FETCH_FLIGHTS_SUCCESS:
-      return exampleData.set({
+      return flightData.set({
         status: FETCHED,
         data: action.payload
       })(state)
+    case ActionTypes.SET_SEARCH_STRING:
+      return searchString.set(action.searchString)(state)
     default:
       return state
   }
