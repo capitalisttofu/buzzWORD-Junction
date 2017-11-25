@@ -67,6 +67,15 @@ const RiskCell = (row: { value: number }) => (
   </div>
 )
 
+export type ThreatSource = {
+  hasTwitter: boolean
+  hasWeather: boolean
+  hasScheduleRisk: boolean
+  twitterData: string[]
+}
+
+const ThreatSourceCell = (row: {}) => {}
+
 const timeFormat = 'DD.MM.YY HH:mm'
 
 const formatTime = (field: string) => (obj: any) =>
