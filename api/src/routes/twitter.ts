@@ -16,9 +16,25 @@ import {
 
 const router = express.Router()
 
-export const getTwitter = async (req: ExpressRequest, res: ExpressResponse) => {
+export const updateTwitter = async (
+  req: ExpressRequest,
+  res: ExpressResponse
+) => {
   try {
     const data = await twitterLib.getAllTwitterData()
+    const result = await twitterLib.updateAllTwitterData(data)
+    res.status(200).send(result)
+  } catch (e) {
+    res.status(500).send(e)
+  }
+}
+
+export const getAllTwitterData = async (
+  req: ExpressRequest,
+  res: ExpressResponse
+) => {
+  try {
+    const data = await twitterDb.fetchAllTwitterData()
     res.status(200).send(data)
   } catch (e) {
     res.status(500).send(e)
@@ -40,6 +56,6 @@ export const getPython = (req: ExpressRequest, res: ExpressResponse) => {
   })
 }
 
-router.get('/', getTwitter)
+router.get('/update', updateTwitter).get('/', getAllTwitterData)
 
 export default router

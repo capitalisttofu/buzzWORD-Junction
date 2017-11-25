@@ -1,32 +1,33 @@
 import { MongoError } from 'mongodb'
 import db from '../lib/mongodb'
-import {} from './../types'
+import { MappedTwitterData } from './../types'
 
-const collectionName = 'exampleData'
+const collectionName = 'twitterData'
 
-export const addExampleData = (name: string) => {
+export const putTwitterData = (data: MappedTwitterData) => {
   return new Promise<string>((resolve, reject) =>
     db()
       .collection(collectionName)
-      .insert({ name }, (err: MongoError, result) => {
-        if (err) {
-          reject(err)
+      .findOneAndUpdate(
+        { airport: data.airport },
+        data,
+        { upsert: true },
+        (err: MongoError, result) => {
+          if (err) {
+            reject(err)
+          }
+          resolve('Inserted twitterData successfully')
         }
-        resolve('Inserted exampleData successfully')
-      })
+      )
   )
 }
 
-export type ExampleData = {
-  name: string
-}
-
-export const fetchExampleData = () => {
-  return new Promise<ExampleData[]>((resolve, reject) => {
+export const fetchAllTwitterData = () => {
+  return new Promise<MappedTwitterData[]>((resolve, reject) => {
     db()
       .collection(collectionName)
       .find({})
-      .toArray((err: MongoError, result: ExampleData[]) => {
+      .toArray((err: MongoError, result: MappedTwitterData[]) => {
         if (err) {
           reject(err)
         } else {

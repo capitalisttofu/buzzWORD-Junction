@@ -24,6 +24,13 @@ export type Twitter = {
   name: string
 }
 
+export type MappedTwitterData = {
+  airport: string
+  diff: number
+  sum: number
+  tags: string[]
+}
+
 export type Flight = {}
 
 export type ExpressResponse = express.Response

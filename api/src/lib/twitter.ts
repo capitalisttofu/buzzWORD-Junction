@@ -1,7 +1,8 @@
 import * as Twit from 'twit'
 import * as R from 'ramda'
-import { Twitter } from '../types'
+import { Twitter, MappedTwitterData } from '../types'
 import * as gaussian from 'gaussian'
+import * as db from '../db/twitter'
 
 const twitterconf = {
   consumer_key: process.env.consumer_key,
@@ -39,13 +40,6 @@ const airportToWOEID: AirportToWOEID[] = [
 
 const twit = new Twit(twitterconf)
 
-export type MappedTwitterData = {
-  airport: string
-  diff: number
-  sum: number
-  tags: string[]
-}
-
 export const getTwitterDataForAirport = (airportData: AirportToWOEID) => {
   return new Promise<MappedTwitterData>((resolve, reject) => {
     twit.get('trends/place', { id: airportData.WOEID }, (err, data) => {
@@ -74,11 +68,21 @@ export const getTwitterDataForAirport = (airportData: AirportToWOEID) => {
   })
 }
 
-export const getAllTwitterData = async () => {
-  return new Promise((res, rej) => {
+export const getAllTwitterData = (): Promise<MappedTwitterData[]> => {
+  return new Promise<MappedTwitterData[]>((res, rej) => {
     Promise.all(
       R.map((air: AirportToWOEID) => getTwitterDataForAirport(air))(
         airportToWOEID
+      )
+    ).then(data => res(data), err => rej(err))
+  })
+}
+
+export const updateAllTwitterData = (data: MappedTwitterData[]) => {
+  return new Promise<string[]>((res, rej) => {
+    Promise.all(
+      R.map((mappedData: MappedTwitterData) => db.putTwitterData(mappedData))(
+        data
       )
     ).then(data => res(data), err => rej(err))
   })
