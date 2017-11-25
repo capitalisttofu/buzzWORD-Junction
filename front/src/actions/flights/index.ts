@@ -1,9 +1,7 @@
 import * as ActionTypes from 'actionTypes/flights'
 import * as Types from 'types'
 
-export function fetchFlightsRequest(
-  payload: string
-): ActionTypes.FetchFlightsRequest {
+export function fetchFlightsRequest(): ActionTypes.FetchFlightsRequest {
   return {
     type: ActionTypes.FETCH_FLIGHTS_REQUEST
   }
