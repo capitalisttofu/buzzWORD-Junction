@@ -19,6 +19,11 @@ export interface ExpressRequest<Params = any, Body = any, Query = any>
   body: Body
 }
 
+export type Twitter = {
+  tweet_volume: number | null
+  name: string
+}
+
 export type Flight = {}
 
 export type ExpressResponse = express.Response
