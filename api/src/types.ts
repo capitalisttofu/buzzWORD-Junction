@@ -19,4 +19,6 @@ export interface ExpressRequest<Params = any, Body = any, Query = any>
   body: Body
 }
 
+export type Flight = {}
+
 export type ExpressResponse = express.Response

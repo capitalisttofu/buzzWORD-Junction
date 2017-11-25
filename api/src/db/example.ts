@@ -30,7 +30,6 @@ export const fetchExampleData = () => {
         if (err) {
           reject(err)
         } else {
-          console.log(result)
           resolve(result)
         }
       })

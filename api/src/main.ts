@@ -4,6 +4,7 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser'
 
 import exampleRouter from './routes/example'
+import flightsRouter from './routes/flights'
 
 import { ExpressRequest, ExpressResponse } from './types'
 
@@ -12,6 +13,7 @@ const port = 8000
 const apiRouter = express.Router()
 apiRouter
   .use('/example', exampleRouter)
+  .use('/flights', flightsRouter)
   .use('/status', (req, res) => res.status(200).send(true))
 
 const app = express()
