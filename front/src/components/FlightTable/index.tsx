@@ -105,7 +105,7 @@ const columns = [
 const tableProps = {
   defaultSorted: [
     {
-      id: 'risk',
+      id: 'overall_risk',
       desc: true
     }
   ],
