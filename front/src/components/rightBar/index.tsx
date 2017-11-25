@@ -5,8 +5,6 @@ import * as RR from 'react-router'
 import * as Types from 'types'
 import './style.scss'
 
-import { NotificationList } from '../NotificationList'
-
 export const mapStateToProps = ({  }: Types.AppState) => ({})
 
 export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({})

@@ -94,8 +94,8 @@ const tableProps = {
   defaultPageSize: 15
 }
 
-export const NotificationList: React.ComponentClass<{}> = enhance(
-  class NotificationListComponent extends React.Component<Type, {}> {
+export const FlightTable: React.ComponentClass<{}> = enhance(
+  class FlightTableComponent extends React.Component<Type, {}> {
     componentWillMount() {
       this.props.fetchFlights()
     }

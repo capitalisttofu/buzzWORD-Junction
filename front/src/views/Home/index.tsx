@@ -6,7 +6,7 @@ import * as Types from 'types'
 import * as FlightActions from 'actions/flights'
 import { Worldmap } from '../../components/Worldmap'
 import data from '../../mockData'
-import { NotificationList } from '../../components/NotificationList'
+import { FlightTable } from '../../components/FlightTable'
 import './style.scss'
 
 export const mapStateToProps = ({ flights }: Types.AppState) => ({
@@ -35,7 +35,7 @@ export const HomeView: React.ComponentClass<Props> = enhance(
     render() {
       return (
         <div className="home-view-component">
-          <NotificationList />
+          <FlightTable />
           {/*<Worldmap />*/}
         </div>
       )
