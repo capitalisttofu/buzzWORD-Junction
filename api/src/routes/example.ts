@@ -3,6 +3,7 @@ import * as t from 'io-ts'
 import * as fp from 'fp-ts'
 import * as PythonShell from 'python-shell'
 import * as path from 'path'
+import * as exampleDb from '../db/example'
 
 import {
   ExpressRequest,
@@ -32,6 +33,18 @@ export const getPython = (req: ExpressRequest, res: ExpressResponse) => {
   })
 }
 
-router.get('/', getExample).get('/python/:name', getPython)
+export const postMongo = async (req: ExpressRequest, res: ExpressResponse) => {
+  try {
+    const result = await exampleDb.addExampleData(req.body.name)
+    res.status(200).send({ message: result })
+  } catch (e) {
+    res.status(500).send({ message: e })
+  }
+}
+
+router
+  .get('/', getExample)
+  .get('/python/:name', getPython)
+  .post('/mongo', postMongo)
 
 export default router
