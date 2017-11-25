@@ -22,6 +22,11 @@ export default class Worldmap extends React.Component<any, any> {
       center: [0, 20],
       zoom: 1
     }
+    this.zoomToDataPoint = this.zoomToDataPoint.bind(this)
+  }
+
+  zoomToDataPoint({ coordinates }: any) {
+    this.setState(state => ({ ...state, center: coordinates, zoom: 2 }))
   }
 
   render() {
@@ -38,14 +43,14 @@ export default class Worldmap extends React.Component<any, any> {
           y: spring(this.state.center[1], { stiffness: 210, damping: 20 })
         }}
       >
-        {() => (
+        {({ zoom, x, y }) => (
           <ComposableMap
             style={{
               width: '100%',
               height: 'auto'
             }}
           >
-            <ZoomableGroup>
+            <ZoomableGroup center={[x, y]} zoom={zoom}>
               <Geographies geographyUrl={mapUrl}>
                 {(geographies: any, projection: any) =>
                   geographies.map((geography: any, i: number) => (
@@ -78,7 +83,11 @@ export default class Worldmap extends React.Component<any, any> {
               </Geographies>
               <Markers>
                 {this.state.markers.map((coordinates: [number, number]) => (
-                  <Marker marker={{ coordinates }} key={coordinates.toString()}>
+                  <Marker
+                    marker={{ coordinates }}
+                    key={coordinates.toString()}
+                    onClick={this.zoomToDataPoint}
+                  >
                     <circle cx={0} cy={0} r={10} fill="rgba(100,50,0,0.5)" />
                   </Marker>
                 ))}
