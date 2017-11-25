@@ -5,6 +5,7 @@ import * as PythonShell from 'python-shell'
 import * as path from 'path'
 import * as exampleDb from '../db/example'
 import * as R from 'ramda'
+import * as gaussian from 'gaussian'
 
 import {
   ExpressRequest,
@@ -70,7 +71,12 @@ export const getTwitter = (req: ExpressRequest, res: ExpressResponse) =>
         R.filter((obj: TwitterType) => !!obj.tweet_volume)
       )(data[0].trends)
 
-      res.status(200).send({ data: stuff })
+      res.status(200).send({
+        data: {
+          ...stuff,
+          diff: gaussian(0, 0.01).ppf(Math.random()) * stuff.sum
+        }
+      })
     }
   )
 
