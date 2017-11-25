@@ -11,7 +11,6 @@ def classify(data_vector):
     clf = joblib.load('ml_data/svm_classifier.pkl')
 
     # Classify the test data
-    print("Classifying")
     prediction_label = clf.predict(data)[0]
 
     return prediction_label
