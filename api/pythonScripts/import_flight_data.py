@@ -9,11 +9,11 @@ client = MongoClient(mongo_address)
 db = client.admin
 
 connection_data_file = 'connection_data.json'
-flight_data_file = 'europe_flights.json'
+europe_flights_file = 'europe_flights.json'
 asian_flights_file = 'asia_flights.json'
 
 connection_data = json.loads(open(connection_data_file, "r").read())
-flight_data = json.loads(open(flight_data_file, "r").read())
+europe_flight_data = json.loads(open(europe_flights_file, "r").read())
 asia_flight_data = json.loads(open(asian_flights_file, "r").read())
 
 flights = []
@@ -24,4 +24,9 @@ for x in range(0, 39):
     flight['connector_flights'] = connection_data[x]
     flights.append(flight)
 
-result = db.flightsData.insertMany(data)
+for flight in europe_flight_data:
+    flights.append(flight)
+
+#print(len(flights))
+
+result = db.flightsData.insertMany(flights)
