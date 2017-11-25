@@ -1,8 +1,10 @@
+@import 'assets/sass/variables';
+
 .top-navi-component {
     width: 100%;
     height: 3rem;
-    background: #0E1E71;
-    color: white;
+    background: $color-blue;
+    color: $color-white;
     display: flex;
     justify-content: flex-start;
     align-items: center;
