@@ -1,25 +1,31 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import ReactTable from 'react-table'
+import * as FlightActions from 'actions/flights'
 import * as Types from '../../types'
 import './style.scss'
 import 'react-table/react-table.css'
 
-export const mapStateToProps = ({ mapdata }: Types.AppState) => ({
-  datapoints: mapdata
+export const mapStateToProps = ({ flights }: Types.AppState) => ({
+  flights: flights.flightData
 })
 
 const StatePropsWitness = (false as true) && mapStateToProps({} as any)
 type StateProps = typeof StatePropsWitness
 
-type Props = StateProps
+export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({
+  fetchFlights: () => dispatch(FlightActions.fetchFlightsRequest())
+})
 
-type State = {
-  center: Types.Coordinate
-  zoom: number
-}
+const DispatchPropsWitness = (false as true) && mapDispatchToProps({} as any)
+type DispatchProps = typeof DispatchPropsWitness
 
-const enhance = connect<StateProps, {}, Props>(mapStateToProps)
+type Type = StateProps & DispatchProps
+
+const enhance = connect<StateProps, DispatchProps, Props>(
+  mapStateToProps,
+  mapDispatchToProps
+)
 
 const Cell = row => (
   <div
@@ -89,12 +95,17 @@ const tableProps = {
 }
 
 export const NotificationList: React.ComponentClass<{}> = enhance(
-  class NotificationListComponent extends React.Component<{}, {}> {
+  class NotificationListComponent extends React.Component<Type, {}> {
+    componentWillMount() {
+      this.props.fetchFlights()
+    }
     render() {
-      const { datapoints } = this.props
+      const { flights } = this.props
       return (
         <div className="notification-list">
-          <ReactTable data={data} columns={columns} {...tableProps} />
+          {flights.status === 'FETCHED' && (
+            <ReactTable data={flights.data} columns={columns} {...tableProps} />
+          )}
         </div>
       )
     }

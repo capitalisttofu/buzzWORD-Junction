@@ -8,7 +8,7 @@ export const FETCHING = 'FETCHING'
 export const FETCHED = 'FETCHED'
 export const ERROR = 'ERROR'
 
-export type ExampleData =
+export type FlightData =
   | {
       status: typeof STANDBY
     }
@@ -25,16 +25,16 @@ export type ExampleData =
     }
 
 export type State = {
-  exampleData: ExampleData
+  flightData: FlightData
 }
 
 export const initialState: State = {
-  exampleData: {
+  flightData: {
     status: STANDBY
   }
 }
 
-const exampleData = Lens.fromProp<State, 'exampleData'>('exampleData')
+const exampleData = Lens.fromProp<State, 'flightData'>('flightData')
 
 export const example = (
   state: State = initialState,
