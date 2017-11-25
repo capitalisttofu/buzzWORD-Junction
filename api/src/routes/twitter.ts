@@ -18,8 +18,7 @@ const router = express.Router()
 
 export const getTwitter = async (req: ExpressRequest, res: ExpressResponse) => {
   try {
-    const data = await twitterLib.getAllTwitterData(req.query.id)
-    console.log('data', data)
+    const data = await twitterLib.getAllTwitterData()
     res.status(200).send(data)
   } catch (e) {
     res.status(500).send(e)

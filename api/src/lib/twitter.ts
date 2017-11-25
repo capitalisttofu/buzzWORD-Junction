@@ -10,36 +10,49 @@ const twitterconf = {
   access_token_secret: process.env.access_token_secret
 }
 
-const airportToWOEID = {
-  ARN: 906057,
-  BRU: 968019,
-  CDG: 615702,
-  DUS: 646099,
-  EDI: 19344,
-  FRA: 650272,
-  GOT: 890869,
-  LHR: 44418,
-  MAN: 28218,
-  MUC: 676757,
-  MXP: 718345,
-  OSL: 862592,
-  VIE: 551801,
-  ZRH: 784794,
-  BCN: 753692,
-  BKK: 1208341,
-  FCO: 721943,
-  KIX: 15015370,
-  MAD: 766273
+export type AirportToWOEID = {
+  airport: string
+  WOEID: number
 }
+
+const airportToWOEID: AirportToWOEID[] = [
+  { airport: 'ARN', WOEID: 906057 },
+  { airport: 'BRU', WOEID: 968019 },
+  { airport: 'CDG', WOEID: 615702 },
+  { airport: 'DUS', WOEID: 646099 },
+  { airport: 'EDI', WOEID: 19344 },
+  { airport: 'FRA', WOEID: 650272 },
+  { airport: 'GOT', WOEID: 890869 },
+  { airport: 'LHR', WOEID: 44418 },
+  { airport: 'MAN', WOEID: 28218 },
+  { airport: 'MUC', WOEID: 676757 },
+  { airport: 'MXP', WOEID: 718345 },
+  { airport: 'OSL', WOEID: 862592 },
+  { airport: 'VIE', WOEID: 551801 },
+  { airport: 'ZRH', WOEID: 784794 },
+  { airport: 'BCN', WOEID: 753692 },
+  { airport: 'BKK', WOEID: 1208341 },
+  { airport: 'FCO', WOEID: 721943 },
+  { airport: 'KIX', WOEID: 15015370 },
+  { airport: 'MAD', WOEID: 766273 }
+]
 
 const twit = new Twit(twitterconf)
 
-export const getAllTwitterData = (id: string) => {
-  return new Promise((resolve, reject) => {
-    twit.get('trends/place', { id: airportToWOEID[id] }, (err, data) => {
+export type MappedTwitterData = {
+  airport: string
+  diff: number
+  sum: number
+  tags: string[]
+}
+
+export const getTwitterDataForAirport = (airportData: AirportToWOEID) => {
+  return new Promise<MappedTwitterData>((resolve, reject) => {
+    twit.get('trends/place', { id: airportData.WOEID }, (err, data) => {
       if (err) {
         reject(err)
       }
+
       const stuff = R.compose(
         R.reduce(
           (acc, obj: Twitter) => ({
@@ -54,11 +67,13 @@ export const getAllTwitterData = (id: string) => {
       )(data[0].trends)
 
       resolve({
-        data: {
-          ...stuff,
-          diff: gaussian(0, 0.01).ppf(Math.random()) * stuff.sum
-        }
+        ...stuff,
+        diff: gaussian(0, 0.01).ppf(Math.random()) * stuff.sum,
+        airport: airportData.airport
       })
     })
   })
 }
+
+export const getAllTwitterData = () =>
+  getTwitterDataForAirport({ airport: 'ARN', WOEID: 906057 })
