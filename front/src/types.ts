@@ -108,10 +108,13 @@ export const iFlight = t.intersection([
     connector_flights_10h: t.array(t.string)
   }),
   t.partial({
-    weather_risk: t.number,
-    twitter_risk: t.number,
+    weather_risk_arrival: t.number,
+    weather_risk_departure: t.number,
+    twitter_risk_arrival: t.number,
+    twitter_risk_departure: t.number,
     schedule_risk: t.number,
-    overall_risk: t.number
+    overall_risk: t.number,
+    twitterTrends: t.array(t.string)
   })
 ])
 
