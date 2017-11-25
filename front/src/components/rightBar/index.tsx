@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import * as R from 'ramda'
 import * as RR from 'react-router'
 import * as Types from 'types'
-
 import './style.scss'
+
+import { NotificationList } from '../NotificationList'
 
 export const mapStateToProps = ({  }: Types.AppState) => ({})
 
@@ -31,6 +32,7 @@ export const RightBar: React.ComponentClass<Props> = enhance(
       return (
         <div className="right-bar-component">
           <div>Hommaa muija</div>
+          <NotificationList />
         </div>
       )
     }
