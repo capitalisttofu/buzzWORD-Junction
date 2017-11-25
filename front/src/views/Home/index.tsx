@@ -4,7 +4,7 @@ import * as R from 'ramda'
 import * as RR from 'react-router'
 import * as Types from 'types'
 import * as ExampleActions from 'actions/example'
-import Worldmap from '../../components/Worldmap'
+import { Worldmap } from '../../components/Worldmap'
 import data from '../../mockData'
 import './style.scss'
 
@@ -42,7 +42,7 @@ export const HomeView: React.ComponentClass<Props> = enhance(
           <div onClick={() => this.props.fetchExample('cat')}>
             Click me to fetch
           </div>
-          <Worldmap dataPoints={data} />
+          <Worldmap />
         </div>
       )
     }

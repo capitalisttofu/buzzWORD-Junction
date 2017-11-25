@@ -5,9 +5,11 @@ import { Observable } from 'rxjs/Observable'
 import { ActionsObservable } from 'redux-observable'
 import * as Redux from 'redux'
 import * as exampleReducer from 'reducers/example'
+import * as mapdataReducer from 'reducers/mapdata'
 
 export type AppState = {
   example: exampleReducer.State
+  mapdata: mapdataReducer.State
   routing: any
   router: any
 }
