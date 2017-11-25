@@ -42,9 +42,19 @@ export const postMongo = async (req: ExpressRequest, res: ExpressResponse) => {
   }
 }
 
+export const getMongo = async (req: ExpressRequest, res: ExpressResponse) => {
+  try {
+    const result = await exampleDb.fetchExampleData()
+    res.status(200).send({ message: result })
+  } catch (e) {
+    res.status(500).send({ message: e })
+  }
+}
+
 router
   .get('/', getExample)
   .get('/python/:name', getPython)
   .post('/mongo', postMongo)
+  .get('/mongo', getMongo)
 
 export default router
