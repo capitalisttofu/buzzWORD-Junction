@@ -52,35 +52,28 @@ const Cell = row => (
 const columns = [
   {
     Header: 'Flight number',
-    accessor: 'flightno'
+    accessor: 'PLAN_FLIGHT_NUMBER'
   },
   {
-    Header: 'Departure',
-    accessor: 'departure'
+    Header: 'Departure Port',
+    accessor: 'PLAN_DEPARTURE_STATION'
   },
   {
-    Header: 'Destination',
-    accessor: 'destination'
+    Header: 'Arrival Port',
+    accessor: 'PLAN_ARRIVAL_STATION'
+  },
+  {
+    Header: 'Departure Time',
+    accessor: 'PLAN_DEPARTURE_DATETIME_UTC'
+  },
+  {
+    Header: 'Arrival Time',
+    accessor: 'PLAN_ARRIVAL_DATETIME_UTC'
   },
   {
     Header: 'Risk level',
-    accessor: 'risk',
+    accessor: 'weather_risk',
     Cell: Cell
-  }
-]
-
-const data = [
-  {
-    flightno: 'AY 90',
-    departure: 'HEL',
-    destination: 'AMS',
-    risk: 3
-  },
-  {
-    flightno: 'AY 123',
-    departure: 'CDG',
-    destination: 'HEL',
-    risk: 1
   }
 ]
 
