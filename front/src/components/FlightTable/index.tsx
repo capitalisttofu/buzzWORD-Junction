@@ -21,14 +21,16 @@ export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({
 const DispatchPropsWitness = (false as true) && mapDispatchToProps({} as any)
 type DispatchProps = typeof DispatchPropsWitness
 
-type Type = StateProps & DispatchProps
+type Props = {}
+
+type Type = Props & StateProps & DispatchProps
 
 const enhance = connect<StateProps, DispatchProps, Props>(
   mapStateToProps,
   mapDispatchToProps
 )
 
-const Cell = row => (
+const Cell = (row: { value: number }) => (
   <div
     style={{
       width: '100%',
