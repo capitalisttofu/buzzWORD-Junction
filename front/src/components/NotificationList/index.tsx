@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import ReactTable from 'react-table'
+import { format } from 'date-fns'
 import * as FlightActions from 'actions/flights'
 import * as Types from '../../types'
 import './style.scss'
@@ -49,6 +50,10 @@ const Cell = row => (
   </div>
 )
 
+const timeFormat = 'MM-DD HH:mm'
+
+const formatTime = (field: string) => obj => format(obj[field], timeFormat)
+
 const columns = [
   {
     Header: 'Flight number',
@@ -64,11 +69,13 @@ const columns = [
   },
   {
     Header: 'Departure Time',
-    accessor: 'PLAN_DEPARTURE_DATETIME_UTC'
+    id: 'departureTime',
+    accessor: formatTime('PLAN_DEPARTURE_DATETIME_UTC')
   },
   {
     Header: 'Arrival Time',
-    accessor: 'PLAN_ARRIVAL_DATETIME_UTC'
+    id: 'arrivalTime',
+    accessor: formatTime('PLAN_ARRIVAL_DATETIME_UTC')
   },
   {
     Header: 'Risk level',
