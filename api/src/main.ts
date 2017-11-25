@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
 
-import exampleRouter from './routes/example'
+import exampleRouter from './routes/twitter'
 import flightsRouter from './routes/flights'
 import weatherRouter from './routes/weather'
 
