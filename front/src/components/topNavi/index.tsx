@@ -30,6 +30,7 @@ export const TopNavi: React.ComponentClass<Props> = enhance(
     render() {
       return (
         <div className="top-navi-component">
+          <i className="fa fa-plane" aria-hidden="true" />
           <div>Finnair is dank, good investment</div>
         </div>
       )
