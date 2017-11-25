@@ -50,9 +50,10 @@ const Cell = row => (
   </div>
 )
 
-const timeFormat = 'MM-DD HH:mm'
+const timeFormat = 'DD.MM.YY HH:mm'
 
-const formatTime = (field: string) => obj => format(obj[field], timeFormat)
+const formatTime = (field: string) => (obj: any) =>
+  format(obj[field], timeFormat)
 
 const columns = [
   {
