@@ -22,7 +22,7 @@ export const RootApp = () => {
           <Switch>
             <Route exact path="/" component={HomeView} />
           </Switch>
-          <RightBar />
+          {/*<RightBar />*/}
         </div>
       </div>
     </ConnectedRouter>
