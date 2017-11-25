@@ -17,7 +17,7 @@ export type AirportToWOEID = {
 
 const airportToWOEID: AirportToWOEID[] = [
   { airport: 'ARN', WOEID: 906057 },
-  { airport: 'BRU', WOEID: 968019 },
+  // { airport: 'BRU', WOEID: 968019 },
   { airport: 'CDG', WOEID: 615702 },
   { airport: 'DUS', WOEID: 646099 },
   { airport: 'EDI', WOEID: 19344 },
@@ -31,7 +31,7 @@ const airportToWOEID: AirportToWOEID[] = [
   { airport: 'VIE', WOEID: 551801 },
   { airport: 'ZRH', WOEID: 784794 },
   { airport: 'BCN', WOEID: 753692 },
-  { airport: 'BKK', WOEID: 1208341 },
+  // { airport: 'BKK', WOEID: 1208341 },
   { airport: 'FCO', WOEID: 721943 },
   { airport: 'KIX', WOEID: 15015370 },
   { airport: 'MAD', WOEID: 766273 }
@@ -49,10 +49,9 @@ export type MappedTwitterData = {
 export const getTwitterDataForAirport = (airportData: AirportToWOEID) => {
   return new Promise<MappedTwitterData>((resolve, reject) => {
     twit.get('trends/place', { id: airportData.WOEID }, (err, data) => {
-      if (err) {
-        reject(err)
+      if (data.errors || err) {
+        return reject('lol couldnt find stuff for ' + airportData.airport)
       }
-
       const stuff = R.compose(
         R.reduce(
           (acc, obj: Twitter) => ({
@@ -75,5 +74,12 @@ export const getTwitterDataForAirport = (airportData: AirportToWOEID) => {
   })
 }
 
-export const getAllTwitterData = () =>
-  getTwitterDataForAirport({ airport: 'ARN', WOEID: 906057 })
+export const getAllTwitterData = async () => {
+  return new Promise((res, rej) => {
+    Promise.all(
+      R.map((air: AirportToWOEID) => getTwitterDataForAirport(air))(
+        airportToWOEID
+      )
+    ).then(data => res(data), err => rej(err))
+  })
+}
