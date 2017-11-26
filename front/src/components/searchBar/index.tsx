@@ -47,7 +47,7 @@ export const SearchBar: React.ComponentClass<Props> = enhance(
               placeholder="Search by airport or flight code"
             />
           </div>
-          <div>
+          <div className="checkbox-container">
             <label htmlFor="checkbox">
               Display only long haul flights from <b>HEL</b>
             </label>
