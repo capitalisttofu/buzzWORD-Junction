@@ -36,9 +36,11 @@ export const HomeView: React.ComponentClass<Props> = enhance(
     render() {
       return (
         <div className="home-view-component">
-          <SearchBar />
+          <div className="hero-container">
+            <SearchBar />
+            <Worldmap />
+          </div>
           <FlightTable />
-          {/*<Worldmap />*/}
         </div>
       )
     }

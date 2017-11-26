@@ -80,22 +80,22 @@ export const Worldmap: React.ComponentClass<{}> = enhance(
     constructor(props: Props) {
       super(props)
       this.state = {
-        center: [0, 20],
-        zoom: 1
+        center: [60, 40],
+        zoom: 2.2
       }
-      this.toggleZoomToDataPoint = this.toggleZoomToDataPoint.bind(this)
+      //this.toggleZoomToDataPoint = this.toggleZoomToDataPoint.bind(this)
     }
 
-    toggleZoomToDataPoint({ coordinates }: Types.DataPoint) {
-      this.setState(state => ({
-        ...state,
-        center:
-          state.zoom === motionDefaults.zoom
-            ? coordinates
-            : [motionDefaults.x, motionDefaults.y],
-        zoom: state.zoom === motionDefaults.zoom ? 2 : motionDefaults.zoom
-      }))
-    }
+    // toggleZoomToDataPoint({ coordinates }: Types.DataPoint) {
+    //   this.setState(state => ({
+    //     ...state,
+    //     center:
+    //       state.zoom === motionDefaults.zoom
+    //         ? coordinates
+    //         : [motionDefaults.x, motionDefaults.y],
+    //     zoom: state.zoom === motionDefaults.zoom ? 2 : motionDefaults.zoom
+    //   }))
+    // }
 
     render() {
       const { datapoints } = this.props
@@ -156,9 +156,9 @@ export const Worldmap: React.ComponentClass<{}> = enhance(
                         ]
                       }}
                       key={key}
-                      onClick={this.toggleZoomToDataPoint}
+                      //onClick={this.toggleZoomToDataPoint}
                     >
-                      <circle cx={0} cy={0} r={10} fill="rgba(100,50,0,0.5)" />
+                      <circle cx={0} cy={0} r={5} fill="rgba(150,50,0,0.5)" />
                     </Marker>
                   ))}
                 </Markers>
