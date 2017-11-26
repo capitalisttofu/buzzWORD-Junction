@@ -209,7 +209,7 @@ export const calculateLonghaulRisk = (
       )(flight.connector_flights_1h)
       twitterRisk =
         R.reduce(
-          (acc: number, flight: Flight) => acc + flight.twitter_risk_arrival,
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
           0
         )(connectionFlights.hour1) / connectionFlights.hour1.length
       weatherRisk =
@@ -226,7 +226,7 @@ export const calculateLonghaulRisk = (
       )(flight.connector_flights_2h)
       twitterRisk =
         R.reduce(
-          (acc: number, flight: Flight) => acc + flight.twitter_risk_arrival,
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
           0
         )(connectionFlights.hour2) / connectionFlights.hour2.length
       weatherRisk =
@@ -243,7 +243,7 @@ export const calculateLonghaulRisk = (
       )(flight.connector_flights_5h)
       twitterRisk =
         R.reduce(
-          (acc: number, flight: Flight) => acc + flight.twitter_risk_arrival,
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
           0
         )(connectionFlights.hour5) / connectionFlights.hour5.length
       weatherRisk =
@@ -260,7 +260,7 @@ export const calculateLonghaulRisk = (
       )(flight.connector_flights_10h)
       twitterRisk =
         R.reduce(
-          (acc: number, flight: Flight) => acc + flight.twitter_risk_arrival,
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
           0
         )(connectionFlights.hour10) / connectionFlights.hour10.length
 
@@ -274,11 +274,12 @@ export const calculateLonghaulRisk = (
         )(connectionFlights.hour10) / connectionFlights.hour10.length
     }
     const weatherRiskString: string = weatherRisk.toString()
+
     return {
       ...flight,
       weather_risk_arrival: weatherRisk.toString(),
       weather_risk_departure: weatherRisk.toString(),
-      twitter_risk_arrival: twitterRisk,
+      twitter_risk_departure: twitterRisk,
       overall_risk: calculateTotalRisk(
         twitterRisk,
         weatherRiskString,
@@ -290,7 +291,7 @@ export const calculateLonghaulRisk = (
       ...flight,
       weather_risk_arrival: '0',
       weather_risk_departure: '0',
-      twitter_risk_arrival: 0,
+      twitter_risk_departure: 0,
       overall_risk: 0
     }
   }

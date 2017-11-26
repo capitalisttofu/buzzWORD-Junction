@@ -49,7 +49,6 @@ export const iFlight = t.intersection([
     connector_flights_10h: t.array(t.string),
     weather_risk_arrival: t.string,
     weather_risk_departure: t.string,
-    twitter_risk_arrival: t.number,
     twitter_risk_departure: t.number,
     schedule_risk: t.number,
     overall_risk: t.number,
