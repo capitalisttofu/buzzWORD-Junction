@@ -158,7 +158,7 @@ export const Worldmap: React.ComponentClass<{}> = enhance(
                       key={key}
                       //onClick={this.toggleZoomToDataPoint}
                     >
-                      <circle cx={0} cy={0} r={5} fill="rgba(150,50,0,0.5)" />
+                      <circle cx={0} cy={0} r={1.5} fill="#0E1E71" />
                     </Marker>
                   ))}
                 </Markers>
