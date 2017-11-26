@@ -89,7 +89,7 @@ const ThreatSourceCell = (row: any) => (
     {row.value.twitter >= 2 && (
       <i className="fa fa-twitter twitter-icon" aria-hidden="true">
         <div className="tooltip">
-          {row.value.tags && row.value.tags.join(' ')} here
+          {row.value.tags && row.value.tags.map(text => <p>{text}</p>)} here
         </div>
       </i>
     )}
