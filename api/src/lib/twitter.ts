@@ -288,7 +288,7 @@ export const calculateLonghaulRisk = (
     }
     const weatherRiskString: string = weatherRisk.toString()
     if (twitterRisk === null) {
-      twitterRisk = null
+      twitterRisk = 0
     }
     return {
       ...flight,
