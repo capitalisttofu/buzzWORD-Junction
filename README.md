@@ -28,6 +28,19 @@ Front runs in port 8080
 
 Api runs in port 8000
 
+## Setup Database
+
+1. Start MongoDB with Docker in the api folder with `docker-compose up`.
+2. Add the environment variables from process.env.example.
+3. Install pymongo, numpy, scipy and sklearn for python3.
+
+In the api/pythonScripts/ folder:
+
+1. Run import_flight_data.py script with `python3 import_flight_data.py`.
+2. Run update_weather_risk.py script with `python3 update_weather_risk.py`.
+
+Now your db is ready!
+
 ## Machine Learning Instructions
 
 All python scripts are located in /api/pythonScripts/ folder.
