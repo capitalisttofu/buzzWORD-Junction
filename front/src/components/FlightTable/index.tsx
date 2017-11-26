@@ -85,7 +85,9 @@ const ThreatSourceCell = (row: any) => (
   <span className="risk-icon-cell">
     {row.value.twitter >= 2 && (
       <i className="fa fa-twitter twitter-icon" aria-hidden="true">
-        <div className="tooltip">{row.value.tags} here</div>
+        <div className="tooltip">
+          {row.value.tags && row.value.tags.join(' ')} here
+        </div>
       </i>
     )}
     {row.value.weather >= 2 && <i className="fa fa-sun-o" aria-hidden="true" />}
