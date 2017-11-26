@@ -10,7 +10,8 @@ import 'react-table/react-table.css'
 
 export const mapStateToProps = ({ flights }: Types.AppState) => ({
   flights: flights.flightData,
-  searchString: flights.searchString
+  searchString: flights.searchString,
+  checkboxValue: flights.checkboxValue
 })
 
 const StatePropsWitness = (false as true) && mapStateToProps({} as any)
@@ -34,15 +35,21 @@ const enhance = connect<StateProps, DispatchProps, Props>(
 
 export const filterFlights = (
   flights: Types.Flight[],
-  searchString: string
+  searchString: string,
+  checkboxValue: boolean
 ) => {
   const search = searchString.toUpperCase()
   return R.filter(
     (flight: Types.Flight) =>
-      flight.PLAN_ARRIVAL_STATION.toUpperCase().indexOf(search) > -1 ||
-      flight.PLAN_DEPARTURE_STATION.toUpperCase().indexOf(search) > -1 ||
-      flight.PLAN_FLIGHT_NUMBER.toUpperCase().indexOf(search) > -1
-  )(flights)
+      !checkboxValue || flight.PLAN_DEPARTURE_STATION == 'HEL'
+  )(
+    R.filter(
+      (flight: Types.Flight) =>
+        flight.PLAN_ARRIVAL_STATION.toUpperCase().indexOf(search) > -1 ||
+        flight.PLAN_DEPARTURE_STATION.toUpperCase().indexOf(search) > -1 ||
+        flight.PLAN_FLIGHT_NUMBER.toUpperCase().indexOf(search) > -1
+    )(flights)
+  )
 }
 
 const RiskCell = (row: { value: number }) => (
@@ -128,12 +135,12 @@ export const FlightTable: React.ComponentClass<{}> = enhance(
       this.props.fetchFlights()
     }
     render() {
-      const { flights, searchString } = this.props
+      const { flights, searchString, checkboxValue } = this.props
       return (
         <div className="notification-list">
           {flights.status === 'FETCHED' && (
             <ReactTable
-              data={filterFlights(flights.data, searchString)}
+              data={filterFlights(flights.data, searchString, checkboxValue)}
               columns={columns}
               {...tableProps}
             />

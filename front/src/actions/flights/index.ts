@@ -33,3 +33,10 @@ export function setSearchString(
     searchString
   }
 }
+
+export function setCheckboxValue(val: boolean): ActionTypes.SetCheckboxValue {
+  return {
+    type: ActionTypes.SET_CHECKBOX_VALUE,
+    payload: val
+  }
+}
