@@ -75,7 +75,8 @@ export const getAllFlights = async (
   res: ExpressResponse
 ) => {
   try {
-    res.status(200).send(flightMockData)
+    const result = await flightsDB.fetchAllFlightData()
+    res.status(200).send(result)
   } catch (e) {
     res.status(500).send({ message: e })
   }

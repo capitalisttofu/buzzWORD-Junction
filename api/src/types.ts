@@ -40,13 +40,13 @@ export const iFlight = t.intersection([
     PLAN_DEPARTURE_STATION: t.string,
     PLAN_ARRIVAL_STATION: t.string,
     _id: t.string,
-    flightID: t.string,
+    flightID: t.string
+  }),
+  t.partial({
     connector_flights_1h: t.array(t.string),
     connector_flights_2h: t.array(t.string),
     connector_flights_5h: t.array(t.string),
-    connector_flights_10h: t.array(t.string)
-  }),
-  t.partial({
+    connector_flights_10h: t.array(t.string),
     weather_risk_arrival: t.number,
     weather_risk_departure: t.number,
     twitter_risk_arrival: t.number,
