@@ -81,16 +81,14 @@ export type ThreatSource = {
   twitterData: string[]
 }
 
-const ThreatSourceCell = ({
-  twitter,
-  weather
-}: {
-  twitter: number
-  weather: number
-}) => (
-  <span>
-    {twitter >= 2 && <i class="fa fa-twitter" aria-hidden="true" />}
-    {weather >= 2 && <i className="fa fa-sun-o" aria-hidden="true" />}
+const ThreatSourceCell = (row: any) => (
+  <span className="risk-icon-cell">
+    {row.value.twitter >= 2 && (
+      <i className="fa fa-twitter twitter-icon" aria-hidden="true">
+        <div className="tooltip">{row.value.tags} here</div>
+      </i>
+    )}
+    {row.value.weather >= 2 && <i className="fa fa-sun-o" aria-hidden="true" />}
   </span>
 )
 
@@ -132,8 +130,9 @@ const columns = [
     Header: 'Risk Source',
     id: 'riskSource',
     accessor: (obj: Types.Flight) => ({
-      twitter: Math.max(obj.twitter_risk_arrival, obj.twitter_risk_departure),
-      weather: Math.max(obj.weather_risk_arrival, obj.weather_risk_departure)
+      twitter: Math.max(0, obj.twitter_risk_departure),
+      weather: Math.max(obj.weather_risk_arrival, obj.weather_risk_departure),
+      tags: obj.twitterTrends
     }),
     Cell: ThreatSourceCell
   }

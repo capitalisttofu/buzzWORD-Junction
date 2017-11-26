@@ -1,8 +1,24 @@
-/*.notification-list {
-  background-color: #ddd;
-  .table-row {
-    display: flex;
-    justify-content: space-around;
+.risk-icon-cell {
+  i {
+    margin: 0 10px;
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+  .tooltip {
+    visibility: hidden;
+    background-color: #fff;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    position: absolute;
+    font-family: 'Open Sans';
+    right: 0;
+    z-index: 1;
+  }
+  .twitter-icon:hover .tooltip {
+    visibility: visible;
   }
 }
-*/
