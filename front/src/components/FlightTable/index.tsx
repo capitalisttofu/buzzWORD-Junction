@@ -76,15 +76,16 @@ export type ThreatSource = {
 
 const ThreatSourceCell = (row: {}) => {}
 
-const timeFormat = 'DD.MM.YY HH:mm'
+/*const timeFormat = 'DD.MM.YY HH:mm'
 
 const formatTime = (field: string) => (obj: any) =>
-  format(obj[field], timeFormat)
+  format(obj[field], timeFormat)*/
 
 const columns = [
   {
     Header: 'Flight number',
-    accessor: 'PLAN_FLIGHT_NUMBER'
+    id: 'flightNumber',
+    accessor: obj => `${obj.PLAN_CARRIER_CODE} ${obj.PLAN_FLIGHT_NUMBER}`
   },
   {
     Header: 'Departure Port',
@@ -97,12 +98,12 @@ const columns = [
   {
     Header: 'Departure Time',
     id: 'departureTime',
-    accessor: formatTime('PLAN_DEPARTURE_DATETIME_UTC')
+    accessor: 'PLAN_DEPARTURE_DATETIME_UTC'
   },
   {
     Header: 'Arrival Time',
     id: 'arrivalTime',
-    accessor: formatTime('PLAN_ARRIVAL_DATETIME_UTC')
+    accessor: 'PLAN_ARRIVAL_DATETIME_UTC'
   },
   {
     Header: 'Risk level',
