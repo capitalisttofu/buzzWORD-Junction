@@ -1,9 +1,9 @@
 .risk-icon-cell {
   i {
     margin: 0 10px;
-    &:hover {
-      opacity: 0.85;
-    }
+    /*    &:hover {
+    opacity: 0.85;
+    }*/
   }
   .tooltip {
     visibility: hidden;
@@ -15,8 +15,11 @@
     padding: 10px;
     position: absolute;
     font-family: 'Open Sans';
-    right: 0;
+    text-align: left;
     z-index: 1;
+    p {
+      margin: 0 0 10px;
+    }
   }
   .twitter-icon:hover .tooltip {
     visibility: visible;

@@ -216,8 +216,9 @@ export const calculateLonghaulRisk = (
         R.reduce(
           (acc: number, flight: Flight) =>
             acc +
-            parseInt(flight.weather_risk_arrival, 10) +
-            parseInt(flight.weather_risk_departure, 10),
+            (parseInt(flight.weather_risk_arrival, 10) +
+              parseInt(flight.weather_risk_departure, 10)) /
+              2,
           0
         )(connectionFlights.hour1) / connectionFlights.hour1.length
     } else if (
@@ -236,8 +237,9 @@ export const calculateLonghaulRisk = (
         R.reduce(
           (acc: number, flight: Flight) =>
             acc +
-            parseInt(flight.weather_risk_arrival, 10) +
-            parseInt(flight.weather_risk_departure, 10),
+            (parseInt(flight.weather_risk_arrival, 10) +
+              parseInt(flight.weather_risk_departure, 10)) /
+              2,
           0
         )(connectionFlights.hour2) / connectionFlights.hour2.length
     } else if (
@@ -256,8 +258,9 @@ export const calculateLonghaulRisk = (
         R.reduce(
           (acc: number, flight: Flight) =>
             acc +
-            parseInt(flight.weather_risk_arrival, 10) +
-            parseInt(flight.weather_risk_departure, 10),
+            (parseInt(flight.weather_risk_arrival, 10) +
+              parseInt(flight.weather_risk_departure, 10)) /
+              2,
           0
         )(connectionFlights.hour5) / connectionFlights.hour5.length
     } else if (
@@ -277,14 +280,15 @@ export const calculateLonghaulRisk = (
         R.reduce(
           (acc: number, flight: Flight) =>
             acc +
-            parseInt(flight.weather_risk_arrival, 10) +
-            parseInt(flight.weather_risk_departure, 10),
+            (parseInt(flight.weather_risk_arrival, 10) +
+              parseInt(flight.weather_risk_departure, 10)) /
+              2,
           0
         )(connectionFlights.hour10) / connectionFlights.hour10.length
     }
     const weatherRiskString: string = weatherRisk.toString()
     if (twitterRisk === null) {
-      twitterRisk = null
+      twitterRisk = 0
     }
     return {
       ...flight,
