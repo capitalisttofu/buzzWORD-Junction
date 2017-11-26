@@ -66,11 +66,13 @@ const RiskCell = (row: { value: number }) => (
         width: `${row.value * 33}%`,
         height: '100%',
         backgroundColor:
-          row.value < 2 ? '#85cc00' : row.value < 1 ? '#ffbf00' : '#ff2e00',
+          row.value < 1.5 ? '#85cc00' : row.value < 2.5 ? '#ffbf00' : '#ff2e00',
         borderRadius: '2px',
         transition: 'all .2s ease-out'
       }}
-    />
+    >
+      {row.value ? row.value + 1 : 0}
+    </div>
   </div>
 )
 
