@@ -160,7 +160,14 @@ export const updateFlightDataBasedTwitter = (
         twitterTrends: twitterData.tags
       }
     } else {
-      flight
+      return {
+        ...flight,
+        overall_risk: calculateTotalRisk(
+          0,
+          flight.weather_risk_arrival,
+          flight.weather_risk_departure
+        )
+      }
     }
   })(onlyHell)
   return R.filter((flight: Flight) => {
