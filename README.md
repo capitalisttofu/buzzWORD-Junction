@@ -20,6 +20,8 @@ Front runs in port 8080
 
 `pip install numpy` `pip install sklearn` `pip install pymongo`
 
+`cd pythonScripts` `python import_flight_data.py`
+
 `npm run build`
 
 `npm start`
