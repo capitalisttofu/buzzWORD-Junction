@@ -178,3 +178,144 @@ export const updateFlightDataBasedTwitter = (
     }
   })(mapped)
 }
+
+export type FlightDict = {
+  [key: string]: Flight
+}
+
+export type ConnectionFlightStruct = {
+  hour1: Flight[]
+  hour2: Flight[]
+  hour5: Flight[]
+  hour10: Flight[]
+}
+// 1 2 5 10
+export const calculateLonghaulRisk = (
+  flight: Flight,
+  flightDict: FlightDict
+): Flight => {
+  const connectionFlights: ConnectionFlightStruct = {
+    hour1: [],
+    hour2: [],
+    hour5: [],
+    hour10: []
+  }
+  try {
+    let twitterRisk = 0
+    let weatherRisk = 0
+    if (flight.connector_flights_1h && flight.connector_flights_1h.length > 0) {
+      connectionFlights.hour1 = R.map(
+        (flightId: string) => flightDict[flightId]
+      )(flight.connector_flights_1h)
+      twitterRisk =
+        R.reduce(
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
+          0
+        )(connectionFlights.hour1) / connectionFlights.hour1.length
+      weatherRisk =
+        R.reduce(
+          (acc: number, flight: Flight) =>
+            acc +
+            parseInt(flight.weather_risk_arrival, 10) +
+            parseInt(flight.weather_risk_departure, 10),
+          0
+        )(connectionFlights.hour1) / connectionFlights.hour1.length
+    } else if (
+      flight.connector_flights_2h &&
+      flight.connector_flights_2h.length > 0
+    ) {
+      connectionFlights.hour2 = R.map(
+        (flightId: string) => flightDict[flightId]
+      )(flight.connector_flights_2h)
+      twitterRisk =
+        R.reduce(
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
+          0
+        )(connectionFlights.hour2) / connectionFlights.hour2.length
+      weatherRisk =
+        R.reduce(
+          (acc: number, flight: Flight) =>
+            acc +
+            parseInt(flight.weather_risk_arrival, 10) +
+            parseInt(flight.weather_risk_departure, 10),
+          0
+        )(connectionFlights.hour2) / connectionFlights.hour2.length
+    } else if (
+      flight.connector_flights_5h &&
+      flight.connector_flights_5h.length > 0
+    ) {
+      connectionFlights.hour5 = R.map(
+        (flightId: string) => flightDict[flightId]
+      )(flight.connector_flights_5h)
+      twitterRisk =
+        R.reduce(
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
+          0
+        )(connectionFlights.hour5) / connectionFlights.hour5.length
+      weatherRisk =
+        R.reduce(
+          (acc: number, flight: Flight) =>
+            acc +
+            parseInt(flight.weather_risk_arrival, 10) +
+            parseInt(flight.weather_risk_departure, 10),
+          0
+        )(connectionFlights.hour5) / connectionFlights.hour5.length
+    } else if (
+      flight.connector_flights_10h &&
+      flight.connector_flights_10h.length > 0
+    ) {
+      connectionFlights.hour10 = R.map(
+        (flightId: string) => flightDict[flightId]
+      )(flight.connector_flights_10h)
+      twitterRisk =
+        R.reduce(
+          (acc: number, flight: Flight) => acc + flight.twitter_risk_departure,
+          0
+        )(connectionFlights.hour10) / connectionFlights.hour10.length
+
+      weatherRisk =
+        R.reduce(
+          (acc: number, flight: Flight) =>
+            acc +
+            parseInt(flight.weather_risk_arrival, 10) +
+            parseInt(flight.weather_risk_departure, 10),
+          0
+        )(connectionFlights.hour10) / connectionFlights.hour10.length
+    }
+    const weatherRiskString: string = weatherRisk.toString()
+    if (twitterRisk === null) {
+      twitterRisk = null
+    }
+    return {
+      ...flight,
+      weather_risk_arrival: weatherRisk.toString(),
+      weather_risk_departure: weatherRisk.toString(),
+      twitter_risk_departure: twitterRisk,
+      overall_risk: calculateTotalRisk(
+        twitterRisk,
+        weatherRiskString,
+        weatherRiskString
+      )
+    }
+  } catch (e) {
+    return {
+      ...flight,
+      weather_risk_arrival: '0',
+      weather_risk_departure: '0',
+      twitter_risk_departure: 0,
+      overall_risk: 0
+    }
+  }
+}
+
+export const updateLongHaulRisks = (flights: Flight[]): Flight[] => {
+  const flightDict: FlightDict = {}
+  R.forEach((flight: Flight) => (flightDict[flight.flightID] = flight))(flights)
+  const filtered = R.filter(
+    (flight: Flight) => flight.PLAN_DEPARTURE_STATION === 'HEL'
+  )(flights)
+  const longhauls = R.map((flight: Flight) =>
+    calculateLonghaulRisk(flight, flightDict)
+  )(filtered)
+  return longhauls
+}
