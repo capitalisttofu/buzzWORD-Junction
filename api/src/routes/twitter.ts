@@ -15,6 +15,7 @@ import {
   ErrorResponse,
   Response
 } from '../types'
+import { updateAllFlightData } from '../lib/flights'
 
 const router = express.Router()
 
@@ -35,9 +36,12 @@ export const updateTwitter = async (
     )
     console.log('wat is here?', updatedStuff.length)
     const result = await flightsLib.updateAllFlightData(updatedStuff)
+    const updatedFlightData = await flightsDB.fetchAllFlightData()
+    const longHaulRiskData = twitterLib.updateLongHaulRisks(updatedFlightData)
+    const result2 = await flightsLib.updateAllFlightData(longHaulRiskData)
     res
       .status(200)
-      .send('Successfully updated ' + result.length + ' flight data')
+      .send('Successfully updated ' + result2.length + ' flight data')
   } catch (e) {
     res.status(500).send(e)
   }
