@@ -1,6 +1,6 @@
 import * as Twit from 'twit'
 import * as R from 'ramda'
-import { Twitter, MappedTwitterData } from '../types'
+import { Twitter, MappedTwitterData, Flight } from '../types'
 import * as gaussian from 'gaussian'
 import * as db from '../db/twitter'
 
@@ -18,7 +18,7 @@ export type AirportToWOEID = {
 
 const airportToWOEID: AirportToWOEID[] = [
   { airport: 'ARN', WOEID: 906057 },
-  // { airport: 'BRU', WOEID: 968019 },
+  { airport: 'BRU', WOEID: 968019 },
   { airport: 'CDG', WOEID: 615702 },
   { airport: 'DUS', WOEID: 646099 },
   { airport: 'EDI', WOEID: 19344 },
@@ -32,7 +32,7 @@ const airportToWOEID: AirportToWOEID[] = [
   { airport: 'VIE', WOEID: 551801 },
   { airport: 'ZRH', WOEID: 784794 },
   { airport: 'BCN', WOEID: 753692 },
-  // { airport: 'BKK', WOEID: 1208341 },
+  { airport: 'BKK', WOEID: 1208341 },
   { airport: 'FCO', WOEID: 721943 },
   { airport: 'KIX', WOEID: 15015370 },
   { airport: 'MAD', WOEID: 766273 }
@@ -44,7 +44,7 @@ export const getTwitterDataForAirport = (airportData: AirportToWOEID) => {
   return new Promise<MappedTwitterData>((resolve, reject) => {
     twit.get('trends/place', { id: airportData.WOEID }, (err, data) => {
       if (data.errors || err) {
-        return reject('lol couldnt find stuff for ' + airportData.airport)
+        return resolve(null)
       }
       const stuff = R.compose(
         R.reduce(
@@ -74,7 +74,10 @@ export const getAllTwitterData = (): Promise<MappedTwitterData[]> => {
       R.map((air: AirportToWOEID) => getTwitterDataForAirport(air))(
         airportToWOEID
       )
-    ).then(data => res(data), err => rej(err))
+    ).then(
+      data => res(R.filter((d: MappedTwitterData) => d !== null)(data)),
+      err => rej(err)
+    )
   })
 }
 
@@ -86,4 +89,53 @@ export const updateAllTwitterData = (data: MappedTwitterData[]) => {
       )
     ).then(data => res(data), err => rej(err))
   })
+}
+
+export type TwitterDict = {
+  [key: string]: MappedTwitterData
+}
+
+const calculateRisk = (twitterData: MappedTwitterData) => {
+  const risk = twitterData.sum / twitterData.diff
+  if (risk <= 0) {
+    return 0
+  } else if (risk <= 0.5) {
+    return 1
+  } else {
+    return 2
+  }
+}
+
+export const updateFlightDataBasedTwitter = (
+  flightData: Flight[],
+  twitterDataArray: MappedTwitterData[]
+): Flight[] => {
+  const onlyHell = R.filter(
+    (flight: Flight) => flight.PLAN_ARRIVAL_STATION === 'HEL'
+  )(flightData)
+  const twitterDict: TwitterDict = {}
+  R.forEach(
+    (twitterData: MappedTwitterData) =>
+      (twitterDict[twitterData.airport] = twitterData)
+  )(twitterDataArray)
+  const mapped = R.map((flight: Flight) => {
+    const twitterData: MappedTwitterData =
+      twitterDict[flight.PLAN_DEPARTURE_STATION]
+    if (twitterData) {
+      return {
+        ...flight,
+        twitter_risk_departure: calculateRisk(twitterData),
+        twitterTrends: twitterData.tags
+      }
+    } else {
+      flight
+    }
+  })(onlyHell)
+  return R.filter((flight: Flight) => {
+    if (flight) {
+      return true
+    } else {
+      false
+    }
+  })(mapped)
 }
