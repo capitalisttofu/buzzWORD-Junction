@@ -5,7 +5,7 @@ export default () => (
   <footer>
     <p>
       <b>CoPilot</b> is a <b>Junction 2017</b> project by Henri Simola, Lauri
-      Telama, Eetu Virkki, Juuso Mikkonen and Mikko Karjalainen.
+      Telama, Eetu Vilkki, Juuso Mikkonen and Mikko Karjalainen.
     </p>
   </footer>
 )
