@@ -81,7 +81,18 @@ export type ThreatSource = {
   twitterData: string[]
 }
 
-const ThreatSourceCell = (row: {}) => {}
+const ThreatSourceCell = ({
+  twitter,
+  weather
+}: {
+  twitter: number
+  weather: number
+}) => (
+  <span>
+    {twitter >= 2 && <i class="fa fa-twitter" aria-hidden="true" />}
+    {weather >= 2 && <i className="fa fa-sun-o" aria-hidden="true" />}
+  </span>
+)
 
 /*const timeFormat = 'DD.MM.YY HH:mm'
 
@@ -113,9 +124,18 @@ const columns = [
     accessor: 'PLAN_ARRIVAL_DATETIME_UTC'
   },
   {
-    Header: 'Risk level',
+    Header: 'Risk Level',
     accessor: 'overall_risk',
     Cell: RiskCell
+  },
+  {
+    Header: 'Risk Source',
+    id: 'riskSource',
+    accessor: (obj: Types.Flight) => ({
+      twitter: Math.max(obj.twitter_risk_arrival, obj.twitter_risk_departure),
+      weather: Math.max(obj.weather_risk_arrival, obj.weather_risk_departure)
+    }),
+    Cell: ThreatSourceCell
   }
 ]
 
