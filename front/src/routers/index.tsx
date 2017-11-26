@@ -7,6 +7,7 @@ import * as RRR from 'react-router-redux'
 const { ConnectedRouter } = RRR as any
 import { history } from '../store'
 import TopNavi from '../components/topNavi'
+import Footer from '../components/Footer'
 
 import HomeView from '../views/Home'
 
@@ -21,6 +22,7 @@ export const RootApp = () => {
           </Switch>
           {/*<RightBar />*/}
         </div>
+        <Footer />
       </div>
     </ConnectedRouter>
   )
