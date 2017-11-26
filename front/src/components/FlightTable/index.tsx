@@ -68,7 +68,8 @@ const RiskCell = (row: { value: number }) => (
         backgroundColor:
           row.value < 1.5 ? '#85cc00' : row.value < 2.5 ? '#ffbf00' : '#ff2e00',
         borderRadius: '2px',
-        transition: 'all .2s ease-out'
+        transition: 'all .2s ease-out',
+        paddingLeft: '5px'
       }}
     >
       {row.value ? row.value + 1 : 0}
