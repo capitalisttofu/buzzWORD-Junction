@@ -94,6 +94,31 @@ export const updateAllTwitterData = (data: MappedTwitterData[]) => {
 export type TwitterDict = {
   [key: string]: MappedTwitterData
 }
+const weatherWeight = 1.5
+const twitterWeight = 0.5
+const calculateTotalRisk = (
+  twitterRisk,
+  weatherRiskArrival,
+  weatherRiskDeparture
+): number => {
+  let weatherRisk
+  try {
+    const parsedAr = parseInt(weatherRiskArrival, 10)
+    const parsedDep = parseInt(weatherRiskDeparture, 10)
+    weatherRisk = (parsedAr + parsedDep) / 2
+  } catch (e) {
+    return 0
+  }
+  if (twitterRisk && weatherRisk) {
+    return twitterRisk * twitterWeight + weatherRisk * weatherWeight
+  } else if (twitterRisk) {
+    return twitterRisk * twitterWeight
+  } else if (weatherRisk) {
+    return weatherRisk * weatherWeight
+  } else {
+    return 0
+  }
+}
 
 const calculateRisk = (twitterData: MappedTwitterData) => {
   const risk = twitterData.sum / twitterData.diff
@@ -122,9 +147,16 @@ export const updateFlightDataBasedTwitter = (
     const twitterData: MappedTwitterData =
       twitterDict[flight.PLAN_DEPARTURE_STATION]
     if (twitterData) {
+      const twitterRisk = calculateRisk(twitterData)
+
       return {
         ...flight,
-        twitter_risk_departure: calculateRisk(twitterData),
+        twitter_risk_departure: twitterRisk,
+        overall_risk: calculateTotalRisk(
+          twitterRisk,
+          flight.weather_risk_arrival,
+          flight.weather_risk_departure
+        ),
         twitterTrends: twitterData.tags
       }
     } else {
