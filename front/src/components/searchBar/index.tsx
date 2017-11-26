@@ -8,12 +8,15 @@ import * as FlightsActions from 'actions/flights'
 import './style.scss'
 
 export const mapStateToProps = ({ flights }: Types.AppState) => ({
-  searchString: flights.searchString
+  searchString: flights.searchString,
+  checkboxValue: flights.checkboxValue
 })
 
 export const mapDispatchToProps = (dispatch: Types.Dispatch) => ({
   onSearchStringChange: (searchString: string) =>
-    dispatch(FlightsActions.setSearchString(searchString))
+    dispatch(FlightsActions.setSearchString(searchString)),
+  onCheckboxChange: (val: boolean) =>
+    dispatch(FlightsActions.setCheckboxValue(!val))
 })
 
 const StatePropsWitness = (false as true) && mapStateToProps({} as any)
@@ -42,6 +45,18 @@ export const SearchBar: React.ComponentClass<Props> = enhance(
               value={this.props.searchString}
               onChange={e => this.props.onSearchStringChange(e.target.value)}
               placeholder="Search by airport or flight code"
+            />
+          </div>
+          <div className="checkbox-container">
+            <label htmlFor="checkbox">
+              Display only long haul flights from <b>HEL</b>
+            </label>
+            <input
+              type="checkbox"
+              id="checkbox"
+              checked={this.props.checkboxValue}
+              onClick={() =>
+                this.props.onCheckboxChange(this.props.checkboxValue)}
             />
           </div>
         </div>

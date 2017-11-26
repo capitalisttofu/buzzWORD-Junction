@@ -10,7 +10,8 @@ import 'react-table/react-table.css'
 
 export const mapStateToProps = ({ flights }: Types.AppState) => ({
   flights: flights.flightData,
-  searchString: flights.searchString
+  searchString: flights.searchString,
+  checkboxValue: flights.checkboxValue
 })
 
 const StatePropsWitness = (false as true) && mapStateToProps({} as any)
@@ -34,15 +35,21 @@ const enhance = connect<StateProps, DispatchProps, Props>(
 
 export const filterFlights = (
   flights: Types.Flight[],
-  searchString: string
+  searchString: string,
+  checkboxValue: boolean
 ) => {
   const search = searchString.toUpperCase()
   return R.filter(
     (flight: Types.Flight) =>
-      flight.PLAN_ARRIVAL_STATION.toUpperCase().indexOf(search) > -1 ||
-      flight.PLAN_DEPARTURE_STATION.toUpperCase().indexOf(search) > -1 ||
-      flight.PLAN_FLIGHT_NUMBER.toUpperCase().indexOf(search) > -1
-  )(flights)
+      !checkboxValue || flight.PLAN_DEPARTURE_STATION == 'HEL'
+  )(
+    R.filter(
+      (flight: Types.Flight) =>
+        flight.PLAN_ARRIVAL_STATION.toUpperCase().indexOf(search) > -1 ||
+        flight.PLAN_DEPARTURE_STATION.toUpperCase().indexOf(search) > -1 ||
+        flight.PLAN_FLIGHT_NUMBER.toUpperCase().indexOf(search) > -1
+    )(flights)
+  )
 }
 
 const RiskCell = (row: { value: number }) => (
@@ -74,17 +81,29 @@ export type ThreatSource = {
   twitterData: string[]
 }
 
-const ThreatSourceCell = (row: {}) => {}
+const ThreatSourceCell = ({
+  twitter,
+  weather
+}: {
+  twitter: number
+  weather: number
+}) => (
+  <span>
+    {twitter >= 2 && <i class="fa fa-twitter" aria-hidden="true" />}
+    {weather >= 2 && <i className="fa fa-sun-o" aria-hidden="true" />}
+  </span>
+)
 
-const timeFormat = 'DD.MM.YY HH:mm'
+/*const timeFormat = 'DD.MM.YY HH:mm'
 
 const formatTime = (field: string) => (obj: any) =>
-  format(obj[field], timeFormat)
+  format(obj[field], timeFormat)*/
 
 const columns = [
   {
     Header: 'Flight number',
-    accessor: 'PLAN_FLIGHT_NUMBER'
+    id: 'flightNumber',
+    accessor: obj => `${obj.PLAN_CARRIER_CODE} ${obj.PLAN_FLIGHT_NUMBER}`
   },
   {
     Header: 'Departure Port',
@@ -97,17 +116,26 @@ const columns = [
   {
     Header: 'Departure Time',
     id: 'departureTime',
-    accessor: formatTime('PLAN_DEPARTURE_DATETIME_UTC')
+    accessor: 'PLAN_DEPARTURE_DATETIME_UTC'
   },
   {
     Header: 'Arrival Time',
     id: 'arrivalTime',
-    accessor: formatTime('PLAN_ARRIVAL_DATETIME_UTC')
+    accessor: 'PLAN_ARRIVAL_DATETIME_UTC'
   },
   {
-    Header: 'Risk level',
+    Header: 'Risk Level',
     accessor: 'overall_risk',
     Cell: RiskCell
+  },
+  {
+    Header: 'Risk Source',
+    id: 'riskSource',
+    accessor: (obj: Types.Flight) => ({
+      twitter: Math.max(obj.twitter_risk_arrival, obj.twitter_risk_departure),
+      weather: Math.max(obj.weather_risk_arrival, obj.weather_risk_departure)
+    }),
+    Cell: ThreatSourceCell
   }
 ]
 
@@ -127,12 +155,12 @@ export const FlightTable: React.ComponentClass<{}> = enhance(
       this.props.fetchFlights()
     }
     render() {
-      const { flights, searchString } = this.props
+      const { flights, searchString, checkboxValue } = this.props
       return (
         <div className="notification-list">
           {flights.status === 'FETCHED' && (
             <ReactTable
-              data={filterFlights(flights.data, searchString)}
+              data={filterFlights(flights.data, searchString, checkboxValue)}
               columns={columns}
               {...tableProps}
             />

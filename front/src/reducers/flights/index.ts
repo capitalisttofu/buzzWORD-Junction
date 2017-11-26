@@ -27,17 +27,20 @@ export type FlightData =
 export type State = {
   flightData: FlightData
   searchString: string
+  checkboxValue: boolean
 }
 
 export const initialState: State = {
   flightData: {
     status: STANDBY
   },
-  searchString: ''
+  searchString: '',
+  checkboxValue: false
 }
 
 const flightData = Lens.fromProp<State, 'flightData'>('flightData')
 const searchString = Lens.fromProp<State, 'searchString'>('searchString')
+const checkboxValue = Lens.fromProp<State, 'checkboxValue'>('checkboxValue')
 
 export const example = (
   state: State = initialState,
@@ -60,6 +63,8 @@ export const example = (
       })(state)
     case ActionTypes.SET_SEARCH_STRING:
       return searchString.set(action.searchString)(state)
+    case ActionTypes.SET_CHECKBOX_VALUE:
+      return checkboxValue.set(action.payload)(state)
     default:
       return state
   }

@@ -6,10 +6,16 @@ export const FETCH_FLIGHTS_SUCCESS = '@Flights/FETCH_FLIGHTS_SUCCESS'
 export const FETCH_FLIGHTS_FAILURE = '@Flights/FETCH_FLIGHTS_FAILURE'
 
 export const SET_SEARCH_STRING = '@Flights/SET_SEARCH_STRING'
+export const SET_CHECKBOX_VALUE = '@Flights/SET_CHECKBOX_VALUE'
 
 export type SetSearchString = {
   type: typeof SET_SEARCH_STRING
   searchString: string
+}
+
+export type SetCheckboxValue = {
+  type: typeof SET_CHECKBOX_VALUE
+  payload: boolean
 }
 
 export type FetchFlightsRequest = {
@@ -31,3 +37,4 @@ export type Action =
   | FetchFlightsSuccess
   | FetchFlightsFailure
   | SetSearchString
+  | SetCheckboxValue
